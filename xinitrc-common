@@ -1,0 +1,75 @@
+#!/bin/bash
+# Copyright (C) 1999 - 2004 Red Hat, Inc. All rights reserved. This
+# copyrighted material is made available to anyone wishing to use, modify,
+# copy, or redistribute it subject to the terms and conditions of the
+# GNU General Public License version 2.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+# xinitrc-common
+#
+# This is common code shared by both Xsession and xinitrc scripts.  Be sure
+# to take this into account when fixing bugs or adding new functionality.
+
+# Set up i18n environment
+if [ -r /etc/profile.d/lang.sh ]; then
+  . /etc/profile.d/lang.sh
+fi
+
+[ -x /usr/bin/xsetroot ] && /usr/bin/xsetroot -solid '#222E45'
+
+userresources=$HOME/.Xresources
+usermodmap=$HOME/.Xmodmap
+userxkbmap=$HOME/.Xkbmap
+
+sysresources=/etc/X11/Xresources
+sysmodmap=/etc/X11/Xmodmap
+sysxkbmap=/etc/X11/Xkbmap
+
+# merge in defaults
+[ -r "$sysresources" ] && xrdb -merge "$sysresources"
+[ -r "$userresources" ] && xrdb -merge "$userresources"
+
+# merge in keymaps
+if [ -r "$sysxkbmap" ]; then
+    setxkbmap $(cat "$sysxkbmap")
+    XKB_IN_USE=yes
+fi
+
+if [ -r "$userxkbmap" ]; then
+    setxkbmap $(cat "$userxkbmap")
+    XKB_IN_USE=yes
+fi
+
+# xkb and xmodmap don't play nice together
+if [ -z "$XKB_IN_USE" ]; then
+    [ -r "$sysmodmap" ] && xmodmap "$sysmodmap"
+    [ -r "$usermodmap" ] && xmodmap "$usermodmap"
+fi
+
+unset XKB_IN_USE
+
+# run all system xinitrc shell scripts.
+for file in /etc/X11/xinit/xinitrc.d/* ; do
+    if echo $file | grep -q "\.sh$" ; then
+        . $file
+    else
+        echo "warning: $file does not end in .sh extension, ignoring"
+    fi
+done
+
+# Prefix launch of session with ssh-agent if available and not already running.
+SSH_AGENT=
+if [ -x /usr/bin/ssh-agent -a -z "$SSH_AGENT_PID" ]; then
+    if [ "x$TMPDIR" != "x" ]; then
+        SSH_AGENT="/usr/bin/ssh-agent /bin/env TMPDIR=$TMPDIR"
+    else
+        SSH_AGENT="/usr/bin/ssh-agent"
+  fi
+fi
+
+DBUS_LAUNCH=
+[ -x /usr/bin/dbus-launch -a -z "$DBUS_SESSION_BUS_ADDRESS" ] && DBUS_LAUNCH="/usr/bin/dbus-launch --exit-with-session"
+

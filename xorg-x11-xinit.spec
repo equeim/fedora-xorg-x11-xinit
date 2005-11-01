@@ -89,8 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Oct 31 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-2
-- Import custom Red Hat xinit scripts from xinitrc package
-- Obsolete xinitrc package
+- Import custom Red Hat xinit scripts from xinitrc package.
+- Obsolete xinitrc package, as we include the scripts/configs here now.
+- Fix all scripts/configs to avoid the now obsolete /usr/X11R6 prefix.
 
 * Mon Oct 31 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-1
 - Updated to xinit 0.99.2 from X11R7 RC1.

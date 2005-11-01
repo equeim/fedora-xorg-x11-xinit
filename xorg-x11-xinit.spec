@@ -1,14 +1,13 @@
 %define pkgname xinit
-%define upstreamversion 0.99.0
 
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
-Version: 0.99.0
-Release: 2
+Version: 0.99.2
+Release: 1
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
-Source0: http://xorg.freedesktop.org/X11R7.0-RC0/everything/%{pkgname}-%{upstreamversion}.tar.bz2
+Source0: http://xorg.freedesktop.org/releases/X11R7.0-RC1/everything/%{pkgname}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: libX11-devel
@@ -24,7 +23,7 @@ X.Org X11 X Window System xinit startup scripts
 %setup -q -c %{name}-%{version}
 
 %build
-cd %{pkgname}-%{upstreamversion}
+cd %{pkgname}-%{version}
 %configure
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
@@ -32,7 +31,7 @@ make XINITDIR=/etc/X11/xinit
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd %{pkgname}-%{upstreamversion}
+cd %{pkgname}-%{version}
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
 %makeinstall XINITDIR=$RPM_BUILD_ROOT/etc/X11/xinit
@@ -53,11 +52,15 @@ rm -rf $RPM_BUILD_ROOT
 # scripts.
 %config %{_sysconfdir}/X11/xinit/xinitrc
 %dir %{_mandir}
-%dir %{_mandir}/man1
-%{_mandir}/man1/startx.1*
-%{_mandir}/man1/xinit.1*
+%dir %{_mandir}/man1x
+%{_mandir}/man1x/startx.1x*
+%{_mandir}/man1x/xinit.1x*
 
 %changelog
+* Mon Oct 31 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-1
+- Updated to xinit 0.99.2 from X11R7 RC1.
+- Change manpage location to 'man1x' in file manifest.
+
 * Wed Oct  5 2005 Mike A. Harris <mharris@redhat.com> 0.99.0-2
 - Use Fedora-Extras style BuildRoot tag.
 - Update BuildRequires to use new library package names.

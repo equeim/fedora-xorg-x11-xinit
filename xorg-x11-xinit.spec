@@ -3,11 +3,17 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: 0.99.2
-Release: 1
+Release: 2
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
 Source0: http://xorg.freedesktop.org/releases/X11R7.0-RC1/everything/%{pkgname}-%{version}.tar.bz2
+Source10: xinitrc-common
+Source11: xinitrc
+Source12: Xclients
+Source13: Xmodmap
+Source14: Xresources
+Source15: xinput.sh
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: libX11-devel
@@ -15,6 +21,12 @@ BuildRequires: libX11-devel
 # NOTE: xinit, startx moved to xorg-x11-xinit during the X.Org X11R7
 # modularization.  These Conflicts lines ensure upgrades work smoothly.
 Conflicts: XFree86, xorg-x11
+
+# NOTE: Most of the xinitrc scripts/config files are now in xorg-x11-xinit,
+# so xinitrc became unnecessary.  The xdm configs/scripts move to the xdm
+# package.
+Conflicts: xinitrc
+Obsoletes: xinitrc
 
 %description
 X.Org X11 X Window System xinit startup scripts
@@ -36,6 +48,21 @@ cd %{pkgname}-%{version}
 # Makefile.am and submit it in a bug report or check into CVS.
 %makeinstall XINITDIR=$RPM_BUILD_ROOT/etc/X11/xinit
 
+# Install Red Hat custom xinitrc, etc.
+{
+    for script in %{SOURCE10} %{SOURCE11} %{SOURCE12} ; do
+        install -m 755 $script $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/${script##*/}
+    done
+
+    install -m 644 %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/X11/Xmodmap
+    install -m 644 %{SOURCE14} $RPM_BUILD_ROOT%{_sysconfdir}/X11/Xresources
+
+    mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d
+    install -m 755 %{SOURCE15} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/xinput.sh
+
+    mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/Xclients.d
+}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -47,16 +74,24 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/xinit
 %dir %{_sysconfdir}/X11
 %dir %{_sysconfdir}/X11/xinit
-# FIXME: We have to update the Xorg supplied xinitrc to the customized
-# Red Hat version in 'xinitrc' package, along with other appropriate
-# scripts.
-%config %{_sysconfdir}/X11/xinit/xinitrc
+%{_sysconfdir}/X11/xinit/xinitrc
+%{_sysconfdir}/X11/xinit/xinitrc-common
+%config(noreplace) %{_sysconfdir}/X11/Xmodmap
+%config(noreplace) %{_sysconfdir}/X11/Xresources
+%dir %{_sysconfdir}/X11/xinit/Xclients.d
+%{_sysconfdir}/X11/xinit/Xclients
+%dir %{_sysconfdir}/X11/xinit/xinitrc.d
+%{_sysconfdir}/X11/xinit/xinitrc.d/*
 %dir %{_mandir}
 %dir %{_mandir}/man1x
 %{_mandir}/man1x/startx.1x*
 %{_mandir}/man1x/xinit.1x*
 
 %changelog
+* Mon Oct 31 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-2
+- Import custom Red Hat xinit scripts from xinitrc package
+- Obsolete xinitrc package
+
 * Mon Oct 31 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-1
 - Updated to xinit 0.99.2 from X11R7 RC1.
 - Change manpage location to 'man1x' in file manifest.

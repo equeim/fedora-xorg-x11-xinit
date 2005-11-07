@@ -3,7 +3,7 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: 0.99.2
-Release: 2
+Release: 3
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -25,8 +25,13 @@ Conflicts: XFree86, xorg-x11
 # NOTE: Most of the xinitrc scripts/config files are now in xorg-x11-xinit,
 # so xinitrc became unnecessary.  The xdm configs/scripts move to the xdm
 # package.
-Conflicts: xinitrc
 Obsoletes: xinitrc
+#Conflicts: xinitrc
+# FIXME: This virtual provide is temporary only, to make it easier during
+# the FC5 migration from monolithic X to modular X.  Once we have gotten
+# modular X into rawhide, this provide will be removed once all FC5 packages
+# have weaned their usage of it.
+Provides: xinitrc = 5.0.0-1
 
 %description
 X.Org X11 X Window System xinit startup scripts
@@ -88,6 +93,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1x/xinit.1x*
 
 %changelog
+* Mon Nov 7 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-3
+- Added "Provides: xinitrc = 5.0.0-1" for temporary compatibility between
+  monolithic and modular X.  This will be removed however for FC5.
+
 * Mon Oct 31 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-2
 - Import custom Red Hat xinit scripts from xinitrc package.
 - Obsolete xinitrc package, as we include the scripts/configs here now.

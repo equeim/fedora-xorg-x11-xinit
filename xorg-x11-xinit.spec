@@ -2,7 +2,7 @@
 
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
-Version: 0.99.2
+Version: 0.99.3
 Release: 3
 License: MIT/X11
 Group: User Interface/X
@@ -37,10 +37,9 @@ Provides: xinitrc = 5.0.0-1
 X.Org X11 X Window System xinit startup scripts
 
 %prep
-%setup -q -c %{name}-%{version}
+%setup -q -n %{pkgname}-%{version}
 
 %build
-cd %{pkgname}-%{version}
 %configure
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
@@ -48,7 +47,6 @@ make XINITDIR=/etc/X11/xinit
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd %{pkgname}-%{version}
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
 %makeinstall XINITDIR=$RPM_BUILD_ROOT/etc/X11/xinit
@@ -93,6 +91,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1x/xinit.1x*
 
 %changelog
+* Fri Nov 11 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-1
+- Updated to xinit 0.99.3 from X11R7 RC2.
+
 * Mon Nov 7 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-3
 - Added "Provides: xinitrc = 5.0.0-1" for temporary compatibility between
   monolithic and modular X.  This will be removed however for FC5.

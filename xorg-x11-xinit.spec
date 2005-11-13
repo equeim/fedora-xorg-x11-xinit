@@ -3,17 +3,19 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: 0.99.3
-Release: 3
+Release: 4
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
-Source0: http://xorg.freedesktop.org/releases/X11R7.0-RC1/everything/%{pkgname}-%{version}.tar.bz2
+Source0: http://xorg.freedesktop.org/releases/X11R7.0-RC2/everything/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
 Source11: xinitrc
 Source12: Xclients
 Source13: Xmodmap
 Source14: Xresources
 Source15: xinput.sh
+# Xsession is used by xdm/kdm/gdm and possibly others, so let's keep it here.
+Source16: Xsession
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: libX11-devel
@@ -53,7 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # Install Red Hat custom xinitrc, etc.
 {
-    for script in %{SOURCE10} %{SOURCE11} %{SOURCE12} ; do
+    for script in %{SOURCE10} %{SOURCE11} %{SOURCE12} %{SOURCE16} ; do
         install -m 755 $script $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/${script##*/}
     done
 
@@ -91,7 +93,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1x/xinit.1x*
 
 %changelog
-* Fri Nov 11 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-1
+* Sat Nov 12 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-4
+- Added Xsession script from xinitrc, as it is very similar codebase, which
+  shares "xinitrc-common" anyway, and all of the display managers use it.
+
+* Fri Nov 11 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-3
 - Updated to xinit 0.99.3 from X11R7 RC2.
 
 * Mon Nov 7 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-3

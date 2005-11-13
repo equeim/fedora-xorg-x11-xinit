@@ -85,6 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/X11/Xresources
 %dir %{_sysconfdir}/X11/xinit/Xclients.d
 %{_sysconfdir}/X11/xinit/Xclients
+%{_sysconfdir}/X11/xinit/Xsession
 %dir %{_sysconfdir}/X11/xinit/xinitrc.d
 %{_sysconfdir}/X11/xinit/xinitrc.d/*
 %dir %{_mandir}

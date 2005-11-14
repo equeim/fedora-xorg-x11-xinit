@@ -3,7 +3,7 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: 0.99.3
-Release: 4
+Release: 5
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -28,12 +28,6 @@ Conflicts: XFree86, xorg-x11
 # so xinitrc became unnecessary.  The xdm configs/scripts move to the xdm
 # package.
 Obsoletes: xinitrc
-#Conflicts: xinitrc
-# FIXME: This virtual provide is temporary only, to make it easier during
-# the FC5 migration from monolithic X to modular X.  Once we have gotten
-# modular X into rawhide, this provide will be removed once all FC5 packages
-# have weaned their usage of it.
-Provides: xinitrc = 5.0.0-1
 
 %description
 X.Org X11 X Window System xinit startup scripts
@@ -94,6 +88,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1x/xinit.1x*
 
 %changelog
+* Mon Nov 14 2005 Jeremy Katz <katzj@redhat.com> - 0.99.3-5
+- don't provide xinit anymore, gdm has been fixed and that breaks things with 
+  the obsoletes
+
 * Sat Nov 12 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-4
 - Added Xsession script from xinitrc, as it is very similar codebase, which
   shares "xinitrc-common" anyway, and all of the display managers use it.

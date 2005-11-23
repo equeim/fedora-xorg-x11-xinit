@@ -3,10 +3,12 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: 0.99.3
-Release: 5
+Release: 6
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 Source0: http://xorg.freedesktop.org/releases/X11R7.0-RC2/everything/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
 Source11: xinitrc
@@ -14,19 +16,22 @@ Source12: Xclients
 Source13: Xmodmap
 Source14: Xresources
 Source15: xinput.sh
-# Xsession is used by xdm/kdm/gdm and possibly others, so let's keep it here.
+# NOTE: Xsession is used by xdm/kdm/gdm and possibly others, so we keep it
+#       here instead of the xdm package.
 Source16: Xsession
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: libX11-devel
+# NOTE: startx needs xauth in order to run, but that is not picked up
+#       automatically by rpm.  (Bug #173684)
+Requires: xauth
 
 # NOTE: xinit, startx moved to xorg-x11-xinit during the X.Org X11R7
 # modularization.  These Conflicts lines ensure upgrades work smoothly.
 Conflicts: XFree86, xorg-x11
 
 # NOTE: Most of the xinitrc scripts/config files are now in xorg-x11-xinit,
-# so xinitrc became unnecessary.  The xdm configs/scripts move to the xdm
-# package.
+# so the xinitrc package became unnecessary.  The xdm configs/scripts move
+# to the xdm package.
 Obsoletes: xinitrc
 
 %description
@@ -88,9 +93,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1x/xinit.1x*
 
 %changelog
-* Mon Nov 14 2005 Jeremy Katz <katzj@redhat.com> - 0.99.3-5
-- don't provide xinit anymore, gdm has been fixed and that breaks things with 
-  the obsoletes
+* Tue Nov 22 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-6
+- Add "Requires: xauth" for startx, to fix bug (#173684)
+
+* Mon Nov 14 2005 Jeremy Katz <katzj@redhat.com> 0.99.3-5
+- Do not provide xinit anymore, gdm has been fixed and that breaks things
+  with the obsoletes
 
 * Sat Nov 12 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-4
 - Added Xsession script from xinitrc, as it is very similar codebase, which

@@ -23,10 +23,10 @@ if [ -z "$GDMSESSION" ]; then
     fi
 fi
 
-if ! printenv PATH | grep -q /usr/X11R6/bin
-then
-	PATH="${PATH}":/usr/X11R6/bin
-fi
+#if ! printenv PATH | grep -q /usr/X11R6/bin
+#then
+#	PATH="${PATH}":/usr/X11R6/bin
+#fi
 
 SWITCHDESKPATH=/usr/share/switchdesk
 

@@ -2,14 +2,14 @@
 
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
-Version: 0.99.3
-Release: 6
+Version: 1.0.0
+Release: 1
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0: http://xorg.freedesktop.org/releases/X11R7.0-RC2/everything/%{pkgname}-%{version}.tar.bz2
+Source0: http://xorg.freedesktop.org/releases/X11R7.0-RC4/everything/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
 Source11: xinitrc
 Source12: Xclients
@@ -88,11 +88,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/X11/xinit/xinitrc.d
 %{_sysconfdir}/X11/xinit/xinitrc.d/*
 %dir %{_mandir}
-%dir %{_mandir}/man1x
-%{_mandir}/man1x/startx.1x*
-%{_mandir}/man1x/xinit.1x*
+%dir %{_mandir}/man1
+%{_mandir}/man1/startx.1x*
+%{_mandir}/man1/xinit.1x*
 
 %changelog
+* Fri Dec 16 2005 Mike A. Harris <mharris@redhat.com> 1.0.0-1
+- Updated to xinit 1.0.0 from X11R7 RC4.
+- Changed manpage dir from man1x to man1 to match upstream default.
+
 * Tue Nov 22 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-6
 - Add "Requires: xauth" for startx, to fix bug (#173684)
 

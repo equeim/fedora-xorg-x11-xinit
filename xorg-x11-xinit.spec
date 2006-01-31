@@ -2,7 +2,7 @@
 
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
-Version: 1.0.0
+Version: 1.0.1
 Release: 1
 License: MIT/X11
 Group: User Interface/X
@@ -93,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Wed Jan 18 2006 Mike A. Harris <mharris@redhat.com> 1.0.1-1
+- Updated to xinit 1.0.1 from X11R7.0
+
 * Fri Dec 16 2005 Mike A. Harris <mharris@redhat.com> 1.0.0-1
 - Updated to xinit 1.0.0 from X11R7 RC4.
 - Changed manpage dir from man1x to man1 to match upstream default.

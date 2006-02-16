@@ -3,13 +3,13 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: 1.0.1
-Release: 1.2
+Release: 2
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0: http://xorg.freedesktop.org/releases/X11R7.0-RC4/everything/%{pkgname}-%{version}.tar.bz2
+Source0: http://xorg.freedesktop.org/releases/X11R7.0/src/everything/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
 Source11: xinitrc
 Source12: Xclients
@@ -26,8 +26,8 @@ BuildRequires: libX11-devel
 Requires: xauth
 
 # NOTE: xinit, startx moved to xorg-x11-xinit during the X.Org X11R7
-# modularization.  These Conflicts lines ensure upgrades work smoothly.
-Conflicts: XFree86, xorg-x11
+# modularization.  These Obsoletes lines ensure upgrades work smoothly.
+Obsoletes: XFree86, xorg-x11
 
 # NOTE: Most of the xinitrc scripts/config files are now in xorg-x11-xinit,
 # so the xinitrc package became unnecessary.  The xdm configs/scripts move
@@ -73,7 +73,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc
-%dir %{_bindir}
 %{_bindir}/startx
 %{_bindir}/xinit
 %dir %{_sysconfdir}/X11
@@ -87,12 +86,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/X11/xinit/Xsession
 %dir %{_sysconfdir}/X11/xinit/xinitrc.d
 %{_sysconfdir}/X11/xinit/xinitrc.d/*
-%dir %{_mandir}
-%dir %{_mandir}/man1
+#%dir %{_mandir}/man1x
 %{_mandir}/man1/startx.1x*
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Thu Feb 16 2006 Mike A. Harris <mharris@redhat.com> 1.0.1-2
+- Change Conflicts to Obsoletes for xorg-x11 and XFree86 (#181414)
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1.0.1-1.2
 - bump again for double-long bug on ppc(64)
 

@@ -94,10 +94,10 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Feb 16 2006 Mike A. Harris <mharris@redhat.com> 1.0.1-2
 - Change Conflicts to Obsoletes for xorg-x11 and XFree86 (#181414)
 
-* Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1.0.1-1.2
+* Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> 1.0.1-1.2
 - bump again for double-long bug on ppc(64)
 
-* Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 1.0.1-1.1
+* Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> 1.0.1-1.1
 - rebuilt for new gcc4.1 snapshot and glibc changes
 
 * Wed Jan 18 2006 Mike A. Harris <mharris@redhat.com> 1.0.1-1

@@ -2,8 +2,8 @@
 
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
-Version: 1.0.1
-Release: 2
+Version: 1.0.2
+Release: 1
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -91,6 +91,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Thu Apr 27 2006 Adam Jackson <ajackson@redhat.com> 1.0.2-1
+- Update xinit to 1.0.2
+
 * Thu Feb 16 2006 Mike A. Harris <mharris@redhat.com> 1.0.1-2
 - Change Conflicts to Obsoletes for xorg-x11 and XFree86 (#181414)
 

@@ -3,13 +3,13 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: 1.0.2
-Release: 1
+Release: 2
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0: http://xorg.freedesktop.org/releases/X11R7.0/src/everything/%{pkgname}-%{version}.tar.bz2
+Source0: http://xorg.freedesktop.org/releases/individual/app/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
 Source11: xinitrc
 Source12: Xclients
@@ -20,6 +20,7 @@ Source15: xinput.sh
 #       here instead of the xdm package.
 Source16: Xsession
 
+BuildRequires: pkgconfig
 BuildRequires: libX11-devel
 # NOTE: startx needs xauth in order to run, but that is not picked up
 #       automatically by rpm.  (Bug #173684)
@@ -91,6 +92,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Tue Jun 06 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-2
+- Added "BuildRequires: pkgconfig" for bug (#194187)
+
 * Thu Apr 27 2006 Adam Jackson <ajackson@redhat.com> 1.0.2-1
 - Update xinit to 1.0.2
 

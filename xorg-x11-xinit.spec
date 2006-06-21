@@ -3,7 +3,7 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: 1.0.2
-Release: 2
+Release: 3
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -19,6 +19,8 @@ Source15: xinput.sh
 # NOTE: Xsession is used by xdm/kdm/gdm and possibly others, so we keep it
 #       here instead of the xdm package.
 Source16: Xsession
+
+Patch0: ftp://ftp.freedesktop.org/pub/xorg/X11R7.1/patches/xinit-1.0.2-setuid.diff
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
@@ -40,6 +42,7 @@ X.Org X11 X Window System xinit startup scripts
 
 %prep
 %setup -q -n %{pkgname}-%{version}
+%patch0 -p0 -b .setuid
 
 %build
 %configure
@@ -92,6 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Tue Jun 20 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-3
+- Added xinit-1.0.2-setuid.diff to fix potential security issue (#196094)
+
 * Tue Jun 06 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-2
 - Added "BuildRequires: pkgconfig" for bug (#194187)
 
@@ -128,7 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Nov 11 2005 Mike A. Harris <mharris@redhat.com> 0.99.3-3
 - Updated to xinit 0.99.3 from X11R7 RC2.
 
-* Mon Nov 7 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-3
+* Mon Nov 07 2005 Mike A. Harris <mharris@redhat.com> 0.99.2-3
 - Added "Provides: xinitrc = 5.0.0-1" for temporary compatibility between
   monolithic and modular X.  This will be removed however for FC5.
 
@@ -141,7 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 - Updated to xinit 0.99.2 from X11R7 RC1.
 - Change manpage location to 'man1x' in file manifest.
 
-* Wed Oct  5 2005 Mike A. Harris <mharris@redhat.com> 0.99.0-2
+* Wed Oct 05 2005 Mike A. Harris <mharris@redhat.com> 0.99.0-2
 - Use Fedora-Extras style BuildRoot tag.
 - Update BuildRequires to use new library package names.
 - Tidy up spec file a bit.

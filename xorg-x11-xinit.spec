@@ -1,9 +1,10 @@
 %define pkgname xinit
+%define xinitver 1.0.2
 
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
-Version: 1.0.2
-Release: 3
+Version: %{xinitver}
+Release: 4
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -76,7 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc
+%doc AUTHORS COPYING INSTALL README NEWS ChangeLog
 %{_bindir}/startx
 %{_bindir}/xinit
 %dir %{_sysconfdir}/X11
@@ -95,6 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Wed Jun 21 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-4
+- Added documentation to doc macro.
+
 * Tue Jun 20 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-3
 - Added xinit-1.0.2-setuid.diff to fix potential security issue (#196094)
 

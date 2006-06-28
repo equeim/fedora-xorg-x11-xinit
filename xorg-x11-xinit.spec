@@ -10,7 +10,7 @@ Group: User Interface/X
 URL: http://www.x.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0: http://xorg.freedesktop.org/releases/individual/app/%{pkgname}-%{version}.tar.bz2
+Source0: ftp://ftp.x.org/pub/individual/app/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
 Source11: xinitrc
 Source12: Xclients

@@ -14,7 +14,7 @@
 oldterm=$TERM
 unset TERM
 if [ -r /etc/profile.d/lang.sh ]; then
-  . /etc/profile.d/lang.sh
+    source /etc/profile.d/lang.sh
 fi
 [ -n "$oldterm" ] && export TERM=$oldterm
 

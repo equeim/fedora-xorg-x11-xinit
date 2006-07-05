@@ -10,6 +10,9 @@
 #
 # X Input method setup script
 
+USER_XINPUTRC="$HOME/.xinputrc"
+SYS_XINPUTRC="/etc/X11/xinit/xinputrc"
+
 # Load up the user and system locale settings
 oldterm=$TERM
 unset TERM
@@ -20,18 +23,14 @@ fi
 
 tmplang=${LC_CTYPE:-${LANG:-"en_US.UTF-8"}}
 
-## try to source ~/.xinput.d/ll_CC or /etc/X11/xinit/xinput.d/ll_CC to
-## setup the input method for locale (CC is needed for Chinese for example)
 # unset env vars to be safe
 unset XIM XIM_PROGRAM XIM_ARGS XMODIFIERS GTK_IM_MODULE QT_IM_MODULE
-lang_region=$(echo $tmplang | sed -e 's/\..*//')
-for f in $HOME/.xinput.d/${lang_region} \
-	    $HOME/.xinput.d/default \
-	    /etc/X11/xinit/xinput.d/${lang_region} \
-	    /etc/X11/xinit/xinput.d/default ; do
-    [ -r $f ] && source $f && break
-done
-unset lang_region
+
+if [ -r "$USER_XINPUTRC" ]; then
+    source "$USER_XINPUTRC"
+elif [ -r "$SYS_XINPUTRC" ]; then
+    source "$SYS_XINPUTRC"
+fi
 
 [ -n "$GTK_IM_MODULE" ] && export GTK_IM_MODULE
 [ -n "$QT_IM_MODULE" ] && export QT_IM_MODULE

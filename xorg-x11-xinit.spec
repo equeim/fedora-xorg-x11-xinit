@@ -4,7 +4,7 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: %{xinitver}
-Release: 4
+Release: 5%{?dist}
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -96,6 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Wed Jul 05 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-5.fc6
+- Implemented changes to xinput.sh based on suggestions from (#194458)
+
 * Wed Jun 21 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-4
 - Added documentation to doc macro.
 

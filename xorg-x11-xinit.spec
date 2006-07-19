@@ -4,7 +4,7 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: %{xinitver}
-Release: 5.1%{?dist}
+Release: 6%{?dist}
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -96,7 +96,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
-* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - sh: line 0: fg: no job control
+* Wed Jul 19 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-6.fc6
+- Added fix to Xclients script, based on patch from bug (#190799)
+
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> 1.0.2-5.1.fc6
 - rebuild
 
 * Wed Jul 05 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-5.fc6

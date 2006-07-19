@@ -29,13 +29,11 @@ fi
 # now if we can reach here, either no desktop file was present,
 # or the desktop requested is not installed.
 
-# by default, we run GNOME.
 if [ -n "$GSESSION" ]; then
+    # by default, we run GNOME.
     exec "$GSESSION"
-fi
- 
-# if GNOME isn't installed, try KDE.
-if [ -n "$STARTKDE" ]; then
+elif [ -n "$STARTKDE" ]; then
+    # if GNOME isn't installed, try KDE.
     exec "$STARTKDE"
 fi
 

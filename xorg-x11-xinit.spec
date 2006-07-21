@@ -4,7 +4,7 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: %{xinitver}
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -17,6 +17,7 @@ Source12: Xclients
 Source13: Xmodmap
 Source14: Xresources
 Source15: xinput.sh
+Source16: localuser.sh
 # NOTE: Xsession is used by xdm/kdm/gdm and possibly others, so we keep it
 #       here instead of the xdm package.
 Source16: Xsession
@@ -28,6 +29,9 @@ BuildRequires: libX11-devel
 # NOTE: startx needs xauth in order to run, but that is not picked up
 #       automatically by rpm.  (Bug #173684)
 Requires: xauth
+# next two are for localuser.sh
+Requires: coreutils
+Requires: xorg-x11-server-utils
 
 # NOTE: xinit, startx moved to xorg-x11-xinit during the X.Org X11R7
 # modularization.  These Obsoletes lines ensure upgrades work smoothly.
@@ -68,6 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d
     install -m 755 %{SOURCE15} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/xinput.sh
+    install -m 755 %{SOURCE16} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/localuser.sh
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/Xclients.d
 }
@@ -96,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Fri Jul 21 2006 Adam Jackson <ajackson@redhat.com> 1.0.2-7.fc6
+- Added localuser.sh.
+
 * Wed Jul 19 2006 Mike A. Harris <mharris@redhat.com> 1.0.2-6.fc6
 - Added fix to Xclients script, based on patch from bug (#190799)
 

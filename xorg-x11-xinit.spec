@@ -17,10 +17,10 @@ Source12: Xclients
 Source13: Xmodmap
 Source14: Xresources
 Source15: xinput.sh
-Source16: localuser.sh
 # NOTE: Xsession is used by xdm/kdm/gdm and possibly others, so we keep it
 #       here instead of the xdm package.
 Source16: Xsession
+Source17: localuser.sh
 
 Patch0: ftp://ftp.freedesktop.org/pub/xorg/X11R7.1/patches/xinit-1.0.2-setuid.diff
 
@@ -72,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d
     install -m 755 %{SOURCE15} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/xinput.sh
-    install -m 755 %{SOURCE16} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/localuser.sh
+    install -m 755 %{SOURCE17} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/localuser.sh
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/Xclients.d
 }
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Sat Jul 22 2006 Adam Jackson <ajackson@redhat.com> 1.0.2-8.fc6
+- Fix SourceN line for localuser.sh to not collide.
+
 * Fri Jul 21 2006 Adam Jackson <ajackson@redhat.com> 1.0.2-7.fc6
 - Added localuser.sh.
 

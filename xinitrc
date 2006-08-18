@@ -18,11 +18,11 @@
 # The user may have their own clients they want to run.  If they don't,
 # fall back to system defaults.
 if [ -f $HOME/.Xclients ]; then
-    exec $DBUS_LAUNCH $HOME/.Xclients || \
-    exec $HOME/.Xclients
+    exec $SSH_AGENT $DBUS_LAUNCH $HOME/.Xclients || \
+    exec $SSH_AGENT $HOME/.Xclients
 elif [ -f /etc/X11/xinit/Xclients ]; then
-    exec $DBUS_LAUNCH /etc/X11/xinit/Xclients || \
-    exec /etc/X11/xinit/Xclients
+    exec $SSH_AGENT $DBUS_LAUNCH /etc/X11/xinit/Xclients || \
+    exec $SSH_AGENT /etc/X11/xinit/Xclients
 else
     # Failsafe settings.  Although we should never get here
     # (we provide fallbacks in Xclients as well) it can't hurt.

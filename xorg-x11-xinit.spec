@@ -4,7 +4,7 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: %{xinitver}
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Thu Aug 17 2006 Kristian Høgsberg <krh@redhat.com> - 1.0.2-9.fc6
+- Start ssh-agent for startx also (#169259).
+
 * Sat Jul 22 2006 Adam Jackson <ajackson@redhat.com> 1.0.2-8.fc6
 - Fix SourceN line for localuser.sh to not collide.
 

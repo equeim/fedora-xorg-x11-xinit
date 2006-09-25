@@ -4,7 +4,7 @@
 Summary: X.Org X11 X Window System xinit startup scripts
 Name: xorg-x11-%{pkgname}
 Version: %{xinitver}
-Release: 9%{?dist}
+Release: 10%{?dist}
 License: MIT/X11
 Group: User Interface/X
 URL: http://www.x.org
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Mon Sep 25 2006 Kristian Høgsberg <krh@redhat.com> - 1.0.2-10.fc6
+- Move hardcoded xsetroot background color to fallback cases (#205901).
+
 * Thu Aug 17 2006 Kristian Høgsberg <krh@redhat.com> - 1.0.2-9.fc6
 - Start ssh-agent for startx also (#169259).
 

@@ -18,8 +18,6 @@ if [ -r /etc/profile.d/lang.sh ]; then
   . /etc/profile.d/lang.sh
 fi
 
-[ -x /usr/bin/xsetroot ] && /usr/bin/xsetroot -solid '#222E45'
-
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 userxkbmap=$HOME/.Xkbmap

@@ -46,6 +46,8 @@ rm -f $HOME/Xrootenv.0
 {
     # gosh, neither fvwm95 nor fvwm2 is available; 
     # fall back to failsafe settings
+    [ -x /usr/bin/xsetroot ] && /usr/bin/xsetroot -solid '#222E45'
+
     if [ -x /usr/bin/xclock ] ; then
 	/usr/bin/xclock -geometry 100x100-5+5 &
     elif [ -x /usr/bin/xclock ] ; then

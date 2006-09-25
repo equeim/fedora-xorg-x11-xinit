@@ -1,16 +1,15 @@
 %define pkgname xinit
-%define xinitver 1.0.2
 
-Summary: X.Org X11 X Window System xinit startup scripts
-Name: xorg-x11-%{pkgname}
-Version: %{xinitver}
-Release: 10%{?dist}
-License: MIT/X11
-Group: User Interface/X
-URL: http://www.x.org
+Summary:   X.Org X11 X Window System xinit startup scripts
+Name:      xorg-x11-%{pkgname}
+Version:   1.0.2
+Release:   11%{?dist}
+License:   MIT/X11
+Group:     User Interface/X
+URL:       http://www.x.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0: ftp://ftp.x.org/pub/individual/app/%{pkgname}-%{version}.tar.bz2
+Source0:  ftp://ftp.x.org/pub/individual/app/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
 Source11: xinitrc
 Source12: Xclients
@@ -101,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Mon Sep 25 2006 Kristian Høgsberg <krh@redhat.com> - 1.0.2-11.fc6
+- Bump and rebuild.
+
 * Mon Sep 25 2006 Kristian Høgsberg <krh@redhat.com> - 1.0.2-10.fc6
 - Move hardcoded xsetroot background color to fallback cases (#205901).
 

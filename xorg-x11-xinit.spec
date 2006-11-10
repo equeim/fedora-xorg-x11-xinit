@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   13%{?dist}
+Release:   14%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -22,6 +22,7 @@ Source16: Xsession
 Source17: localuser.sh
 
 Patch0: ftp://ftp.freedesktop.org/pub/xorg/X11R7.1/patches/xinit-1.0.2-setuid.diff
+Patch1: xinit-1.0.2-client-session.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
@@ -47,6 +48,7 @@ X.Org X11 X Window System xinit startup scripts
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch0 -p0 -b .setuid
+%patch1 -p1 -b .client-session
 
 %build
 %configure
@@ -100,6 +102,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Fri Nov 10 2006 Ray Strode <rstrode@redhat.com> - 1.0.2-14
+- start client in its own session with no controlling tty
+  (bug 214649)
+
 * Mon Oct 23 2006 Kristian Høgsberg <krh@redhat.com> - 1.0.2-13
 - Update Xsession to not use switchdesk for the hard coded kde and twm
   cases.

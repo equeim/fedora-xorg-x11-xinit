@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   14%{?dist}
+Release:   15%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Mon Nov 27 2006 Adam Jackson <ajax@redhat.com> 1.0.2-15
+- Bump EVR to fix 6 to 7 updates.
+
 * Fri Nov 10 2006 Ray Strode <rstrode@redhat.com> - 1.0.2-14
 - start client in its own session with no controlling tty
   (bug 214649)

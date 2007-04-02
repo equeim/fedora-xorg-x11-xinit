@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   16%{?dist}
+Release:   17%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -31,6 +31,7 @@ BuildRequires: ConsoleKit-devel
 BuildRequires: autoconf
 BuildRequires: automake
 BuildRequires: libtool
+BuildRequires: xorg-x11-util-macros
 # NOTE: startx needs xauth in order to run, but that is not picked up
 #       automatically by rpm.  (Bug #173684)
 Requires: xauth
@@ -111,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Mon Apr 02 2007 David Zeuthen <davidz@redhat.com> 1.0.2-17
+- Also BR xorg-x11-util-macros since we autoreconf
+
 * Mon Apr 02 2007 David Zeuthen <davidz@redhat.com> 1.0.2-16
 - Add ConsoleKit support (#233183)
 

@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   15%{?dist}
+Release:   16%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -23,15 +23,22 @@ Source17: localuser.sh
 
 Patch0: ftp://ftp.freedesktop.org/pub/xorg/X11R7.1/patches/xinit-1.0.2-setuid.diff
 Patch1: xinit-1.0.2-client-session.patch
+Patch2: xinit-1.0.2-2-poke-ck.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
+BuildRequires: ConsoleKit-devel
+BuildRequires: autoconf
+BuildRequires: automake
+BuildRequires: libtool
 # NOTE: startx needs xauth in order to run, but that is not picked up
 #       automatically by rpm.  (Bug #173684)
 Requires: xauth
 # next two are for localuser.sh
 Requires: coreutils
 Requires: xorg-x11-server-utils
+Requires: ConsoleKit-x11
+Requires: ConsoleKit-libs
 
 # NOTE: xinit, startx moved to xorg-x11-xinit during the X.Org X11R7
 # modularization.  These Obsoletes lines ensure upgrades work smoothly.
@@ -49,8 +56,10 @@ X.Org X11 X Window System xinit startup scripts
 %setup -q -n %{pkgname}-%{version}
 %patch0 -p0 -b .setuid
 %patch1 -p1 -b .client-session
+%patch2 -p1 -b .poke-ck
 
 %build
+autoreconf
 %configure
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
@@ -102,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1x*
 
 %changelog
+* Mon Apr 02 2007 David Zeuthen <davidz@redhat.com> 1.0.2-16
+- Add ConsoleKit support (#233183)
+
 * Mon Nov 27 2006 Adam Jackson <ajax@redhat.com> 1.0.2-15
 - Bump EVR to fix 6 to 7 updates.
 

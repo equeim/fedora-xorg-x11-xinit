@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   17%{?dist}
+Release:   18%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -107,11 +107,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/X11/xinit/Xsession
 %dir %{_sysconfdir}/X11/xinit/xinitrc.d
 %{_sysconfdir}/X11/xinit/xinitrc.d/*
-#%dir %{_mandir}/man1x
-%{_mandir}/man1/startx.1x*
-%{_mandir}/man1/xinit.1x*
+#%dir %{_mandir}/man1
+%{_mandir}/man1/startx.1*
+%{_mandir}/man1/xinit.1*
 
 %changelog
+* Mon Apr 02 2007 David Zeuthen <davidz@redhat.com> 1.0.2-18
+- Man pages are now in section 1, not in section 1x
+
 * Mon Apr 02 2007 David Zeuthen <davidz@redhat.com> 1.0.2-17
 - Also BR xorg-x11-util-macros since we autoreconf
 

@@ -29,7 +29,14 @@ unset XIM XIM_PROGRAM XIM_ARGS XMODIFIERS GTK_IM_MODULE QT_IM_MODULE
 if [ -r "$USER_XINPUTRC" ]; then
     source "$USER_XINPUTRC"
 elif [ -r "$SYS_XINPUTRC" ]; then
-    source "$SYS_XINPUTRC"
+    # FIXME: This hardcoded list has to be gone in the future.
+    _language_list="as bn gu hi ja kn ko ml mr ne or pa si ta te th ur vi zh"
+    for i in $_language_list; do
+        if echo $tmplang | grep -q -E "^$i"; then
+            source "$SYS_XINPUTRC"
+            break
+        fi
+    done
 fi
 
 [ -n "$GTK_IM_MODULE" ] && export GTK_IM_MODULE

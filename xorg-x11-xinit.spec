@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   19%{?dist}
+Release:   20%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -93,7 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS COPYING INSTALL README NEWS ChangeLog
+%doc AUTHORS COPYING README NEWS ChangeLog
 %{_bindir}/startx
 %{_bindir}/xinit
 %dir %{_sysconfdir}/X11
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Say Apr 21 2007 Matthias Clasen <mclasen@redhat.com> 1.0.2-20
+- Don't install INSTALL
+
 * Thu Apr 19 2007 Warren Togami <wtogami@redhat.com> 1.0.2-19
 - disable SCIM by default in non-Asian languages #237054
   If you want to use SCIM, use im-chooser to enable it.

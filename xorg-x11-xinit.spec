@@ -112,7 +112,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
-* Say Apr 21 2007 Matthias Clasen <mclasen@redhat.com> 1.0.2-20
+* Sat Apr 22 2007 Matthias Clasen <mclasen@redhat.com> 1.0.2-20
 - Don't install INSTALL
 
 * Thu Apr 19 2007 Warren Togami <wtogami@redhat.com> 1.0.2-19

@@ -9,4 +9,4 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 [ -x /usr/bin/xhost ] && [ -x /usr/bin/id ] &&
-    xhost +si:localuser:`id -un`
+    xhost +si:localuser:`id -un` >& /dev/null

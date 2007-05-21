@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   20%{?dist}
+Release:   21%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Mon May 21 2007 Adam Jackson <ajax@redhat.com> 1.0.2-21
+- localuser.sh: Run silently.
+
 * Sat Apr 22 2007 Matthias Clasen <mclasen@redhat.com> 1.0.2-20
 - Don't install INSTALL
 

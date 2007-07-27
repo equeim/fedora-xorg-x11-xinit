@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   21%{?dist}
+Release:   22%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -15,7 +15,6 @@ Source11: xinitrc
 Source12: Xclients
 Source13: Xmodmap
 Source14: Xresources
-Source15: xinput.sh
 # NOTE: Xsession is used by xdm/kdm/gdm and possibly others, so we keep it
 #       here instead of the xdm package.
 Source16: Xsession
@@ -82,7 +81,6 @@ rm -rf $RPM_BUILD_ROOT
     install -m 644 %{SOURCE14} $RPM_BUILD_ROOT%{_sysconfdir}/X11/Xresources
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d
-    install -m 755 %{SOURCE15} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/xinput.sh
     install -m 755 %{SOURCE17} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/localuser.sh
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/Xclients.d
@@ -112,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Fri Jul 27 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-22
+- Remove xinput.sh. Bug 244963.
+
 * Mon May 21 2007 Adam Jackson <ajax@redhat.com> 1.0.2-21
 - localuser.sh: Run silently.
 

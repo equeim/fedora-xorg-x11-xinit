@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   22%{?dist}
+Release:   23%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org

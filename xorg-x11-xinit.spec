@@ -110,6 +110,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Sun Jul 29 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-23
+- Fix Xsession to run the login shell inside the setgid ssh-agent, rather
+  than the other way around. This preserves LD_LIBRARY_PRELOAD.
+	Patch from Stefan Becker, bug 164869.
+
 * Fri Jul 27 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-22
 - Remove xinput.sh. Bug 244963.
 

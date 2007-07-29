@@ -50,27 +50,28 @@ case $# in
     fi;
 
     case "$1" in
-    failsafe)
-       exec -l $SHELL -c "xterm -geometry 80x24-0-0"
-       ;;
-    gnome)
-       exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH gnome-session"
-       ;;
-    kde|kde1|kde2)
-       exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH startkde"
-       ;;
-    twm)
+	failsafe)
+	    exec -l $SHELL -c "xterm -geometry 80x24-0-0"
+	    ;;
+	gnome)
+	    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH gnome-session"
+	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH gnome-session\"" 
+	    ;;
+	kde|kde1|kde2)
+	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH startkde\""
+	    ;;
+	twm)
         # fall back to twm
-       exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH twm"
-       ;;
-    *)
+	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"DBUS_LAUNCH twm\""
+	    ;;
+	*)
        # GDM provies either a command line as the first argument or
        # provides 'failsafe', 'default' or 'custom'.  KDM will do the
        # same at some point
-       if [ "$1" != "default" -a "$1" != "custom" ]; then
-           exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH $1"
-       fi
-       ;;
+	    if [ "$1" != "default" -a "$1" != "custom" ]; then
+		exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH $1\""
+	    fi
+	    ;;
     esac
 esac
 fi

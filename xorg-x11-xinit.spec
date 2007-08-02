@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   23%{?dist}
+Release:   24%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Thu Aug 2 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-24
+- Fix bug 212167, CVE-2006-5214
+
 * Sun Jul 29 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-23
 - Fix Xsession to run the login shell inside the setgid ssh-agent, rather
   than the other way around. This preserves LD_LIBRARY_PRELOAD.

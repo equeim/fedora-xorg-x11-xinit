@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   25%{?dist}
+Release:   26%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Mon Aug 6 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-26
+- Bump release
+
 * Mon Aug 6 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-25
 - Fix typo: s/unask/umask/ - Bug 250882, Jan ONDREJ (ondrejj@salstar.sk)
 

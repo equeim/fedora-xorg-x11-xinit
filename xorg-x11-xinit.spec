@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Mon Aug 6 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-25
+- Fix typo: s/unask/umask/ - Bug 250882, Jan ONDREJ (ondrejj@salstar.sk)
+
 * Thu Aug 2 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-24
 - Fix bug 212167, CVE-2006-5214
 

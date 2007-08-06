@@ -12,7 +12,7 @@
 if [ -z "$GDMSESSION" ]; then
     # GDM redirect output itself in a smarter fashion
     errfile="$HOME/.xsession-errors"
-    if ( unask 077 && cp /dev/null "$errfile" 2> /dev/null ); then
+    if ( umask 077 && cp /dev/null "$errfile" 2> /dev/null ); then
         chmod 600 "$errfile"
         exec > "$errfile" 2>&1
     else

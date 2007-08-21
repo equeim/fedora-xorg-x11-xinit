@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.2
-Release:   26%{?dist}
+Release:   27%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Tue Aug 21 2007 Adam Jackson <ajax@redhat.com> - 1.0.2-27
+- Rebuild for build id
+
 * Mon Aug 6 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-26
 - Bump release
 

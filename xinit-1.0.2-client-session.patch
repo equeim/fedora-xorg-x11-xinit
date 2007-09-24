@@ -9,7 +9,7 @@
  			Error("cannot change uid: %s\n", strerror(errno));
  			_exit(ERR_EXIT);
  		}
--		setpgrp(0, getpid());
+-		setpgid(0, getpid());
 +		fd = open ("/dev/null", O_RDONLY);
 +
 +		if (fd < 0) {

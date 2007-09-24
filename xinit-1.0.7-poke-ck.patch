@@ -1,46 +1,14 @@
-diff --git a/Makefile.am b/Makefile.am
-diff --git a/configure.ac b/configure.ac
-index 55648bc..07e40cd 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -91,7 +91,7 @@ AC_ARG_WITH(xinit,
- 	[XINIT="$DEFAULT_XINIT"])
- 
- # Checks for pkg-config packages
--PKG_CHECK_MODULES(XINIT, x11)
-+PKG_CHECK_MODULES(XINIT, x11 ck-connector)
- 
- case $host_os in
-     *bsd*)
-diff --git a/startx.cpp b/startx.cpp
-index eba83b8..f091fa5 100644
---- a/startx.cpp
-+++ b/startx.cpp
-@@ -217,6 +217,12 @@ done
- 
- #endif
- 
-+if [ x"$display" != x ]; then
-+    export DISPLAY=$display
-+else
-+    export DISPLAY=:0
-+fi
-+
- #if defined(__SCO__) || defined(__UNIXWARE__)
- if [ "$REMOTE_SERVER" = "TRUE" ]; then
-         exec SHELL_CMD ${client}
-diff --git a/xinit.c b/xinit.c
-index 818f754..de97791 100644
---- a/xinit.c
-+++ b/xinit.c
+diff -up xinit-1.0.7/xinit.c.poke-ck xinit-1.0.7/xinit.c
+--- xinit-1.0.7/xinit.c.poke-ck	2007-09-24 13:48:04.000000000 -0400
++++ xinit-1.0.7/xinit.c	2007-09-24 13:53:55.000000000 -0400
 @@ -1,3 +1,4 @@
 +/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  /* $Xorg: xinit.c,v 1.5 2001/02/09 02:05:49 xorgcvs Exp $ */
  /* $XdotOrg: $ */
  
-@@ -37,6 +38,13 @@ in this Software without prior written authorization from The Open Group.
- #include <stdio.h>
+@@ -39,6 +40,13 @@ in this Software without prior written a
  #include <ctype.h>
+ #include <stdint.h>
  
 +#define USE_CONKIT
 +#ifdef USE_CONKIT
@@ -52,7 +20,7 @@ index 818f754..de97791 100644
  #ifdef X_POSIX_C_SOURCE
  #define _POSIX_C_SOURCE X_POSIX_C_SOURCE
  #include <signal.h>
-@@ -558,6 +566,39 @@ processTimeout(int timeout, char *string)
+@@ -521,6 +529,39 @@ processTimeout(int timeout, char *string
  	return( serverpid != pidfound );
  }
  
@@ -92,7 +60,7 @@ index 818f754..de97791 100644
  static int
  startServer(char *server[])
  {
-@@ -685,6 +726,12 @@ startServer(char *server[])
+@@ -631,6 +672,12 @@ startServer(char *server[])
  		break;
  	}
  
@@ -105,7 +73,7 @@ index 818f754..de97791 100644
  	return(serverpid);
  }
  
-@@ -748,6 +795,13 @@ shutdown(void)
+@@ -785,6 +832,13 @@ shutdown(void)
  				clientpid);
  	}
  
@@ -119,7 +87,7 @@ index 818f754..de97791 100644
  	if (serverpid < 0)
  		return;
  	errno = 0;
-@@ -784,6 +838,13 @@ shutdown(void)
+@@ -821,6 +875,13 @@ shutdown(void)
   * make a new copy of environment that has room for DISPLAY
   */
  
@@ -133,21 +101,21 @@ index 818f754..de97791 100644
  static void 
  set_environment(void)
  {
-@@ -795,11 +856,11 @@ set_environment(void)
+@@ -832,11 +893,11 @@ set_environment(void)
      for (oldPtr = environ; *oldPtr; oldPtr++) ;
  
      nenvvars = (oldPtr - environ);
--    newenviron = (char **) malloc ((nenvvars + 2) * sizeof(char **));
+-    newenviron = (char **) malloc ((nenvvars + 3) * sizeof(char **));
 +    newenviron = (char **) malloc ((nenvvars + NUM_EXTRA_ENV_VARS) * sizeof(char **));
      if (!newenviron) {
  	fprintf (stderr,
  		 "%s:  unable to allocate %d pointers for environment\n",
--		 program, nenvvars + 2);
+-		 program, nenvvars + 3);
 +		 program, nenvvars + NUM_EXTRA_ENV_VARS);
  	exit (1);
      }
  
-@@ -809,9 +870,17 @@ set_environment(void)
+@@ -846,10 +907,19 @@ set_environment(void)
      newPtr = newenviron;
      *newPtr++ = displaybuf;
  
@@ -157,11 +125,42 @@ index 818f754..de97791 100644
 +
      /* copy pointers to other variables */
      for (oldPtr = environ; *oldPtr; oldPtr++) {
+ 	if (strncmp (*oldPtr, "DISPLAY=", 8) != 0
+-	 && strncmp (*oldPtr, "WINDOWPATH=", 11) != 0) {
++	 && strncmp (*oldPtr, "WINDOWPATH=", 11) != 0
 +#ifdef USE_CONKIT
-+	if (strncmp (*oldPtr, "DISPLAY=", 8) != 0 && strncmp (*oldPtr, "XDG_SESSION_COOKIE=", 19) != 0) {
-+#else
- 	if (strncmp (*oldPtr, "DISPLAY=", 8) != 0) {
++	 && strncmp (*oldPtr, "XDG_SESSION_COOKIE=", 19) != 0
 +#endif
++	 )
++	{
  	    *newPtr++ = *oldPtr;
  	}
      }
+diff -up xinit-1.0.7/configure.ac.poke-ck xinit-1.0.7/configure.ac
+--- xinit-1.0.7/configure.ac.poke-ck	2007-09-17 06:46:38.000000000 -0400
++++ xinit-1.0.7/configure.ac	2007-09-24 13:48:04.000000000 -0400
+@@ -92,7 +92,7 @@ AC_ARG_WITH(xinit,
+ 	[XINIT="$DEFAULT_XINIT"])
+ 
+ # Checks for pkg-config packages
+-PKG_CHECK_MODULES(XINIT, x11)
++PKG_CHECK_MODULES(XINIT, x11 ck-connector)
+ 
+ case $host_os in
+     *bsd*)
+diff -up xinit-1.0.7/startx.cpp.poke-ck xinit-1.0.7/startx.cpp
+--- xinit-1.0.7/startx.cpp.poke-ck	2007-09-16 17:24:48.000000000 -0400
++++ xinit-1.0.7/startx.cpp	2007-09-24 13:48:04.000000000 -0400
+@@ -223,6 +223,12 @@ EOF
+     fi
+ done
+ 
++if [ x"$display" != x ]; then
++    export DISPLAY=$display
++else
++    export DISPLAY=:0
++fi
++
+ #if defined(__SCO__) || defined(__UNIXWARE__)
+ if [ "$REMOTE_SERVER" = "TRUE" ]; then
+         exec SHELL_CMD ${client}

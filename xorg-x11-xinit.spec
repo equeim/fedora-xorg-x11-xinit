@@ -2,8 +2,8 @@
 
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
-Version:   1.0.2
-Release:   27%{?dist}
+Version:   1.0.7
+Release:   1%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -20,9 +20,8 @@ Source14: Xresources
 Source16: Xsession
 Source17: localuser.sh
 
-Patch0: ftp://ftp.freedesktop.org/pub/xorg/X11R7.1/patches/xinit-1.0.2-setuid.diff
 Patch1: xinit-1.0.2-client-session.patch
-Patch2: xinit-1.0.2-2-poke-ck.patch
+Patch2: xinit-1.0.7-poke-ck.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
@@ -54,7 +53,6 @@ X.Org X11 X Window System xinit startup scripts
 
 %prep
 %setup -q -n %{pkgname}-%{version}
-%patch0 -p0 -b .setuid
 %patch1 -p1 -b .client-session
 %patch2 -p1 -b .poke-ck
 
@@ -110,6 +108,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Mon Sep 24 2007 Adam Jackson <ajax@redhat.com> 1.0.7-1
+- xinit 1.0.7
+
 * Tue Aug 21 2007 Adam Jackson <ajax@redhat.com> - 1.0.2-27
 - Rebuild for build id
 

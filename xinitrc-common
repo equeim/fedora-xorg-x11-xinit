@@ -71,3 +71,5 @@ fi
 DBUS_LAUNCH=
 [ -x /usr/bin/dbus-launch -a -z "$DBUS_SESSION_BUS_ADDRESS" ] && DBUS_LAUNCH="/usr/bin/dbus-launch --exit-with-session"
 
+CK_XINIT_SESSION=
+[ -x /usr/bin/ck-xinit-session ] && CK_XINIT_SESSION="/usr/bin/ck-xinit-session"

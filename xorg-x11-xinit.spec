@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.7
-Release:   1%{?dist}
+Release:   2%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -19,6 +19,7 @@ Source14: Xresources
 #       here instead of the xdm package.
 Source16: Xsession
 Source17: localuser.sh
+Source100: ck-xinit-session.c
 
 Patch1: xinit-1.0.2-client-session.patch
 Patch2: xinit-1.0.7-poke-ck.patch
@@ -54,7 +55,7 @@ X.Org X11 X Window System xinit startup scripts
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1 -b .client-session
-%patch2 -p1 -b .poke-ck
+#%patch2 -p1 -b .poke-ck
 
 %build
 autoreconf
@@ -62,12 +63,17 @@ autoreconf
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
 make XINITDIR=/etc/X11/xinit
+%{__cc} -o ck-xinit-session \
+	`pkg-config --cflags ck-connector` $RPM_OPT_FLAGS \
+	$RPM_SOURCE_DIR/ck-xinit-session.c \
+	`pkg-config --libs ck-connector`
 
 %install
 rm -rf $RPM_BUILD_ROOT
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
 %makeinstall XINITDIR=$RPM_BUILD_ROOT/etc/X11/xinit
+install -m755 ck-xinit-session $RPM_BUILD_ROOT/%{_bindir}
 
 # Install Red Hat custom xinitrc, etc.
 {
@@ -92,6 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING README NEWS ChangeLog
 %{_bindir}/startx
 %{_bindir}/xinit
+%{_bindir}/ck-xinit-session
 %dir %{_sysconfdir}/X11
 %dir %{_sysconfdir}/X11/xinit
 %{_sysconfdir}/X11/xinit/xinitrc
@@ -108,6 +115,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Fri Oct 12 2007 Nalin Dahyabhai <nalin@redhat.com> 1.0.7-2
+- Try opening the console-kit session after the user's UID has already
+  been granted access to the server by localuser.sh, so that console-kit-daemon
+  can connect and ask the server for information just by having switch to the
+  user's UID (#287941).
+
 * Mon Sep 24 2007 Adam Jackson <ajax@redhat.com> 1.0.7-1
 - xinit 1.0.7
 

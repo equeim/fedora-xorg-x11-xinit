@@ -40,13 +40,13 @@ SWITCHDESKPATH=/usr/share/switchdesk
 # this script. 
 XCLIENTS_D=/etc/X11/xinit/Xclients.d
 if [ -d "$XCLIENTS_D" -a "$#" -eq 1 -a -x "$XCLIENTS_D/Xclients.$1.sh" ]; then
-    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH $XCLIENTS_D/Xclients.$1.sh"
+    exec -l $SHELL -c "$CK_XINIT_SESSION $SSH_AGENT $DBUS_LAUNCH $XCLIENTS_D/Xclients.$1.sh"
 else
 # now, we see if xdm/gdm/kdm has asked for a specific environment
 case $# in
 1)
     if [ -x "$SWITCHDESKPATH/Xclients.$1" ]; then
-       exec -l $SHELL -c "$SWITCHDESKPATH/Xclients.$1";
+       exec -l $SHELL -c "$CK_XINIT_SESSION $SWITCHDESKPATH/Xclients.$1";
     fi;
 
     case "$1" in
@@ -54,11 +54,11 @@ case $# in
 	    exec -l $SHELL -c "xterm -geometry 80x24-0-0"
 	    ;;
 	gnome)
-	    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH gnome-session"
-	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH gnome-session\"" 
+	    exec -l $SHELL -c "$CK_XINIT_SESSION $SSH_AGENT $DBUS_LAUNCH gnome-session"
+	    exec $CK_XINIT_SESSION $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH gnome-session\"" 
 	    ;;
 	kde|kde1|kde2)
-	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH startkde\""
+	    exec $CK_XINIT_SESSION $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH startkde\""
 	    ;;
 	twm)
         # fall back to twm
@@ -78,11 +78,11 @@ fi
 
 # otherwise, take default action
 if [ -x "$HOME/.xsession" ]; then
-    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH $HOME/.xsession"
+    exec -l $SHELL -c "$CK_XINIT_SESSION $SSH_AGENT $DBUS_LAUNCH $HOME/.xsession"
 elif [ -x "$HOME/.Xclients" ]; then
-    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH $HOME/.Xclients"
+    exec -l $SHELL -c "$CK_XINIT_SESSION $SSH_AGENT $DBUS_LAUNCH $HOME/.Xclients"
 elif [ -x /etc/X11/xinit/Xclients ]; then
-    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH /etc/X11/xinit/Xclients"
+    exec -l $SHELL -c "$CK_XINIT_SESSION $SSH_AGENT $DBUS_LAUNCH /etc/X11/xinit/Xclients"
 else
     # should never get here; failsafe fallback
     exec -l $SHELL -c "xsm"

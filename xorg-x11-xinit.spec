@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.7
-Release:   2%{?dist}
+Release:   3%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -48,6 +48,11 @@ Obsoletes: XFree86, xorg-x11
 # so the xinitrc package became unnecessary.  The xdm configs/scripts move
 # to the xdm package.
 Obsoletes: xinitrc
+
+# We don't explicitly run dbus-launch anymore.  We depend on a dbus new enough
+# that it installs its own .sh file in xinitrc.d to launch itself at session
+# startup.
+Conflicts: dbus < 1.1.4-3.fc9
 
 %description
 X.Org X11 X Window System xinit startup scripts
@@ -115,6 +120,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Mon Feb  4 2008 Ray Strode <rstrode@redhat.com> 1.0.7-3
+- don't special case dbus-launch. dbus-x11 now installs
+  a script into /etc/X11/xinit/xinitrc.d.
+- Drop the weird grep rule for extensions ending in .sh
+  when sourcing /etc/X11/xinit/xinitrc.d
+
 * Fri Oct 12 2007 Nalin Dahyabhai <nalin@redhat.com> 1.0.7-2
 - Try opening the console-kit session after the user's UID has already
   been granted access to the server by localuser.sh, so that console-kit-daemon

@@ -40,7 +40,7 @@ SWITCHDESKPATH=/usr/share/switchdesk
 # this script. 
 XCLIENTS_D=/etc/X11/xinit/Xclients.d
 if [ -d "$XCLIENTS_D" -a "$#" -eq 1 -a -x "$XCLIENTS_D/Xclients.$1.sh" ]; then
-    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH $XCLIENTS_D/Xclients.$1.sh"
+    exec -l $SHELL -c "$SSH_AGENT $XCLIENTS_D/Xclients.$1.sh"
 else
 # now, we see if xdm/gdm/kdm has asked for a specific environment
 case $# in
@@ -54,22 +54,22 @@ case $# in
 	    exec -l $SHELL -c "xterm -geometry 80x24-0-0"
 	    ;;
 	gnome)
-	    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH gnome-session"
-	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH gnome-session\"" 
+	    exec -l $SHELL -c "$SSH_AGENT gnome-session"
+	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"gnome-session\"" 
 	    ;;
 	kde|kde1|kde2)
-	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH startkde\""
+	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"startkde\""
 	    ;;
 	twm)
         # fall back to twm
-	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"DBUS_LAUNCH twm\""
+	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"twm\""
 	    ;;
 	*)
        # GDM provies either a command line as the first argument or
        # provides 'failsafe', 'default' or 'custom'.  KDM will do the
        # same at some point
 	    if [ "$1" != "default" -a "$1" != "custom" ]; then
-		exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$DBUS_LAUNCH $1\""
+		exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"$1\""
 	    fi
 	    ;;
     esac
@@ -78,11 +78,11 @@ fi
 
 # otherwise, take default action
 if [ -x "$HOME/.xsession" ]; then
-    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH $HOME/.xsession"
+    exec -l $SHELL -c "$SSH_AGENT $HOME/.xsession"
 elif [ -x "$HOME/.Xclients" ]; then
-    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH $HOME/.Xclients"
+    exec -l $SHELL -c "$SSH_AGENT $HOME/.Xclients"
 elif [ -x /etc/X11/xinit/Xclients ]; then
-    exec -l $SHELL -c "$SSH_AGENT $DBUS_LAUNCH /etc/X11/xinit/Xclients"
+    exec -l $SHELL -c "$SSH_AGENT /etc/X11/xinit/Xclients"
 else
     # should never get here; failsafe fallback
     exec -l $SHELL -c "xsm"

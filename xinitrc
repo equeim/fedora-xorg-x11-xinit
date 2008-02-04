@@ -18,10 +18,10 @@
 # The user may have their own clients they want to run.  If they don't,
 # fall back to system defaults.
 if [ -f $HOME/.Xclients ]; then
-    exec $CK_XINIT_SESSION $SSH_AGENT $DBUS_LAUNCH $HOME/.Xclients || \
+    exec $CK_XINIT_SESSION $SSH_AGENT $HOME/.Xclients || \
     exec $CK_XINIT_SESSION $SSH_AGENT $HOME/.Xclients
 elif [ -f /etc/X11/xinit/Xclients ]; then
-    exec $CK_XINIT_SESSION $SSH_AGENT $DBUS_LAUNCH /etc/X11/xinit/Xclients || \
+    exec $CK_XINIT_SESSION $SSH_AGENT /etc/X11/xinit/Xclients || \
     exec $CK_XINIT_SESSION $SSH_AGENT /etc/X11/xinit/Xclients
 else
     # Failsafe settings.  Although we should never get here

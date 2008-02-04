@@ -51,11 +51,7 @@ unset XKB_IN_USE
 
 # run all system xinitrc shell scripts.
 for file in /etc/X11/xinit/xinitrc.d/* ; do
-    if echo $file | grep -q "\.sh$" ; then
         . $file
-    else
-        echo "warning: $file does not end in .sh extension, ignoring"
-    fi
 done
 
 # Prefix launch of session with ssh-agent if available and not already running.
@@ -67,9 +63,6 @@ if [ -x /usr/bin/ssh-agent -a -z "$SSH_AGENT_PID" ]; then
         SSH_AGENT="/usr/bin/ssh-agent"
   fi
 fi
-
-DBUS_LAUNCH=
-[ -x /usr/bin/dbus-launch -a -z "$DBUS_SESSION_BUS_ADDRESS" ] && DBUS_LAUNCH="/usr/bin/dbus-launch --exit-with-session"
 
 CK_XINIT_SESSION=
 [ -x /usr/bin/ck-xinit-session ] && CK_XINIT_SESSION="/usr/bin/ck-xinit-session"

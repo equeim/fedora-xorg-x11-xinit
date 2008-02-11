@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.7
-Release:   3%{?dist}
+Release:   4%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -23,6 +23,7 @@ Source100: ck-xinit-session.c
 
 Patch1: xinit-1.0.2-client-session.patch
 Patch2: xinit-1.0.7-poke-ck.patch
+Patch3: xinit-1.0.7-unset.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
@@ -39,10 +40,6 @@ Requires: coreutils
 Requires: xorg-x11-server-utils
 Requires: ConsoleKit-x11
 Requires: ConsoleKit-libs
-
-# NOTE: xinit, startx moved to xorg-x11-xinit during the X.Org X11R7
-# modularization.  These Obsoletes lines ensure upgrades work smoothly.
-Obsoletes: XFree86, xorg-x11
 
 # NOTE: Most of the xinitrc scripts/config files are now in xorg-x11-xinit,
 # so the xinitrc package became unnecessary.  The xdm configs/scripts move
@@ -61,6 +58,7 @@ X.Org X11 X Window System xinit startup scripts
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1 -b .client-session
 #%patch2 -p1 -b .poke-ck
+%patch3 -p1 -b .unset
 
 %build
 autoreconf
@@ -120,6 +118,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Mon Feb 11 2008 Adam Jackson <ajax@redhat.com> 1.0.7-4
+- xinit-1.0.7-unset.patch: Unset various session-related environment
+  variables at the top of startx. (#431899)
+
 * Mon Feb  4 2008 Ray Strode <rstrode@redhat.com> 1.0.7-3
 - don't special case dbus-launch. dbus-x11 now installs
   a script into /etc/X11/xinit/xinitrc.d.

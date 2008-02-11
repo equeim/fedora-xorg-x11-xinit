@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.7
-Release:   4%{?dist}
+Release:   5%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -118,6 +118,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xinit.1*
 
 %changelog
+* Mon Feb 11 2008 Adam Jackson <ajax@redhat.com> 1.0.7-5
+- Xresources: s/don't/do not/, cpp is dumb. (#431704)
+
 * Mon Feb 11 2008 Adam Jackson <ajax@redhat.com> 1.0.7-4
 - xinit-1.0.7-unset.patch: Unset various session-related environment
   variables at the top of startx. (#431899)

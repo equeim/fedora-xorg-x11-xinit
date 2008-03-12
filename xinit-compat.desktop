@@ -1,0 +1,4 @@
+[Desktop Entry]
+Name=User script
+Comment=This session runs ~/.xsession or ~/.Xclients if available
+Exec=sh -c "exec ~/.xsession || exec ~/.Xclients || exec /etc/X11/xinit/Xclients"

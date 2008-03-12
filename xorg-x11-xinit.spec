@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.7
-Release:   5%{?dist}
+Release:   6%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -19,6 +19,7 @@ Source14: Xresources
 #       here instead of the xdm package.
 Source16: Xsession
 Source17: localuser.sh
+Source18: xinit-compat.desktop
 Source100: ck-xinit-session.c
 
 Patch1: xinit-1.0.2-client-session.patch
@@ -51,8 +52,15 @@ Obsoletes: xinitrc
 # startup.
 Conflicts: dbus < 1.1.4-3.fc9
 
+%package session
+Summary: Display manager support for ~/.xsession and ~/.Xclients
+Group: User Interface/X
+
 %description
 X.Org X11 X Window System xinit startup scripts
+
+%description session
+Allows legacy ~/.xsession and ~/.Xclients files to be used from display managers
 
 %prep
 %setup -q -n %{pkgname}-%{version}
@@ -77,6 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 # Makefile.am and submit it in a bug report or check into CVS.
 %makeinstall XINITDIR=$RPM_BUILD_ROOT/etc/X11/xinit
 install -m755 ck-xinit-session $RPM_BUILD_ROOT/%{_bindir}
+install -m644 -D $RPM_SOURCE_DIR/xinit-compat.desktop $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compat.desktop
 
 # Install Red Hat custom xinitrc, etc.
 {
@@ -117,7 +126,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/startx.1*
 %{_mandir}/man1/xinit.1*
 
+%files session
+%defattr(-, root, root)
+%{_datadir}/xsessions/xinit-compat.desktop
+
 %changelog
+* Wed Mar 12 2008 Ray Strode <rstrode@redhat.com> 1.0.7-6
+- Add a new subpackage to add ~/.xsessions and ~/.Xclients
+  to session list
+
 * Mon Feb 11 2008 Adam Jackson <ajax@redhat.com> 1.0.7-5
 - Xresources: s/don't/do not/, cpp is dumb. (#431704)
 

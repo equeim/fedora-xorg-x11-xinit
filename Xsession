@@ -54,8 +54,10 @@ case $# in
 	    exec -l $SHELL -c "xterm -geometry 80x24-0-0"
 	    ;;
 	gnome)
-	    exec -l $SHELL -c "$SSH_AGENT gnome-session"
-	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"gnome-session\"" 
+	    # lack of SSH_AGENT is intentional, see #441123.  though
+	    # the whole thing should really happen in xinitrc.d anyway.
+	    exec -l $SHELL -c gnome-session
+	    exec /bin/sh -c "exec -l $SHELL -c \"gnome-session\"" 
 	    ;;
 	kde|kde1|kde2)
 	    exec $SSH_AGENT /bin/sh -c "exec -l $SHELL -c \"startkde\""

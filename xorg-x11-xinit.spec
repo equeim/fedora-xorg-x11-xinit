@@ -2,8 +2,8 @@
 
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
-Version:   1.0.7
-Release:   7%{?dist}
+Version:   1.0.9
+Release:   2%{?dist}
 License:   MIT/X11
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -131,6 +131,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Tue Jul 15 2008 Adam Jackson <ajax@redhat.com> 1.0.9-2
+- Fix license tag.
+
+* Wed Jun 11 2008 Adam Jackson <ajax@redhat.com> 1.0.9-1
+- xinit 1.0.9
+
 * Tue Apr 08 2008 Adam Jackson <ajax@redhat.com> 1.0.7-7
 - Xsession: Don't start ssh-agent for gnome sessions anymore, gnome-keyring
   acts as an agent now. (#441123)

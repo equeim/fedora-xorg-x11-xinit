@@ -3,8 +3,8 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   2%{?dist}
-License:   MIT/X11
+Release:   3%{?dist}
+License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Aug 11 2008 Jason L Tibbitts III <tibbs@math.uh.edu> - 1.0.9-3
+- Really fix license tag.
+
 * Tue Jul 15 2008 Adam Jackson <ajax@redhat.com> 1.0.9-2
 - Fix license tag.
 

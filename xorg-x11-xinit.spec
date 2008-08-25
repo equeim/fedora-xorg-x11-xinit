@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   3%{?dist}
+Release:   4%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Aug 25 2008 Matthias Clasen <mclasen@redhat.com> 1.0.9-3
+- Make the gnome session actually take the gnome case in the switch (#458694)
+
 * Mon Aug 11 2008 Jason L Tibbitts III <tibbs@math.uh.edu> - 1.0.9-3
 - Really fix license tag.
 

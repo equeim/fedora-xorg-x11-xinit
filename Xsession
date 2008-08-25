@@ -53,7 +53,7 @@ case $# in
 	failsafe)
 	    exec -l $SHELL -c "xterm -geometry 80x24-0-0"
 	    ;;
-	gnome)
+	gnome|gnome-session)
 	    # lack of SSH_AGENT is intentional, see #441123.  though
 	    # the whole thing should really happen in xinitrc.d anyway.
 	    exec -l $SHELL -c gnome-session

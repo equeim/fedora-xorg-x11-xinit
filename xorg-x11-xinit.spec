@@ -24,7 +24,6 @@ Source100: ck-xinit-session.c
 
 Patch1: xinit-1.0.2-client-session.patch
 Patch2: xinit-1.0.7-poke-ck.patch
-Patch3: xinit-1.0.7-unset.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
@@ -66,7 +65,6 @@ Allows legacy ~/.xsession and ~/.Xclients files to be used from display managers
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1 -b .client-session
 #%patch2 -p1 -b .poke-ck
-%patch3 -p1 -b .unset
 
 %build
 autoreconf
@@ -133,6 +131,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Aug 25 2008 Matthias Clasen <mclasen@redhat.com> 1.0.9-3
 - Make the gnome session actually take the gnome case in the switch (#458694)
+- Update patches
+- Drop upstreamed patch
 
 * Mon Aug 11 2008 Jason L Tibbitts III <tibbs@math.uh.edu> - 1.0.9-3
 - Really fix license tag.

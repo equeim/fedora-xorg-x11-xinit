@@ -129,7 +129,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
-* Mon Aug 25 2008 Matthias Clasen <mclasen@redhat.com> 1.0.9-3
+* Mon Aug 25 2008 Matthias Clasen <mclasen@redhat.com> 1.0.9-4
 - Make the gnome session actually take the gnome case in the switch (#458694)
 - Update patches
 - Drop upstreamed patch

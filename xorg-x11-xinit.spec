@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   4%{?dist}
+Release:   5%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -39,7 +39,7 @@ Requires: xauth
 Requires: coreutils
 Requires: xorg-x11-server-utils
 Requires: ConsoleKit-x11
-Requires: ConsoleKit-libs
+Requires: which
 
 # NOTE: Most of the xinitrc scripts/config files are now in xorg-x11-xinit,
 # so the xinitrc package became unnecessary.  The xdm configs/scripts move
@@ -129,6 +129,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Wed Feb 25 2009 Adam Tkac <atkac redhat com> 1.0.9-5
+- run ck-xinit-session for all sessions where the xdg cookie isn't already
+  set (#452156, patch from Patrice Dumas)
+- add which Requires (#413041, patch from Patrice Dumas)
+
 * Mon Aug 25 2008 Matthias Clasen <mclasen@redhat.com> 1.0.9-4
 - Make the gnome session actually take the gnome case in the switch (#458694)
 - Update patches

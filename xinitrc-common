@@ -27,7 +27,7 @@ sysmodmap=/etc/X11/Xmodmap
 sysxkbmap=/etc/X11/Xkbmap
 
 # merge in defaults
-[ -r "$sysresources" ] && xrdb -merge "$sysresources"
+[ -r "$sysresources" ] && xrdb -nocpp -merge "$sysresources"
 [ -r "$userresources" ] && xrdb -merge "$userresources"
 
 # merge in keymaps

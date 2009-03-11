@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   5%{?dist}
+Release:   6%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -129,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Wed Mar 11 2009 Adam Jackson <ajax@redhat.com> 1.0.9-6
+- xinitrc-common: Load /etc/X11/Xresources with -nocpp
+
 * Wed Feb 25 2009 Adam Tkac <atkac redhat com> 1.0.9-5
 - run ck-xinit-session for all sessions where the xdg cookie isn't already
   set (#452156, patch from Patrice Dumas)

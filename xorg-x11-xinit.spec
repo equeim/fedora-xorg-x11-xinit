@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   6%{?dist}
+Release:   7%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -129,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Jun 08 2009 Matěj Cepl <mcepl@redhat.com> - 1.0.9-7
+- consider scripts in /etc/X11/xinit/Xclients.d/ as well
+
 * Wed Mar 11 2009 Adam Jackson <ajax@redhat.com> 1.0.9-6
 - xinitrc-common: Load /etc/X11/Xresources with -nocpp
 

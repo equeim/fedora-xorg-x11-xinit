@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   7%{?dist}
+Release:   9%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -24,12 +24,14 @@ Source100: ck-xinit-session.c
 
 Patch1: xinit-1.0.2-client-session.patch
 Patch2: xinit-1.0.7-poke-ck.patch
+Patch3: xinit-1.0.9-unset.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
 BuildRequires: ConsoleKit-devel
 BuildRequires: autoconf
 BuildRequires: automake
+BuildRequires: dbus-devel
 BuildRequires: libtool
 BuildRequires: xorg-x11-util-macros
 # NOTE: startx needs xauth in order to run, but that is not picked up
@@ -65,6 +67,7 @@ Allows legacy ~/.xsession and ~/.Xclients files to be used from display managers
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1 -b .client-session
 #%patch2 -p1 -b .poke-ck
+%patch3 -p1 -b .unset
 
 %build
 autoreconf
@@ -73,9 +76,9 @@ autoreconf
 # Makefile.am and submit it in a bug report or check into CVS.
 make XINITDIR=/etc/X11/xinit
 %{__cc} -o ck-xinit-session \
-	`pkg-config --cflags ck-connector` $RPM_OPT_FLAGS \
+	`pkg-config --cflags ck-connector dbus-1` $RPM_OPT_FLAGS \
 	$RPM_SOURCE_DIR/ck-xinit-session.c \
-	`pkg-config --libs ck-connector`
+	`pkg-config --libs ck-connector dbus-1`
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -129,8 +132,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
-* Mon Jun 08 2009 Matěj Cepl <mcepl@redhat.com> - 1.0.9-7
+* Mon Jun 08 2009 Matěj Cepl <mcepl@redhat.com> - 1.0.9-9
 - consider scripts in /etc/X11/xinit/Xclients.d/ as well
+- add back scripts in Release -7 and -8 from F11 branch.
+
+* Fri May 22 2009 Nalin Dahyabhai <nalin@redhat.com> 1.0.9-8
+- have ck-xinit-session tell the session bus to set
+  XDG_SESSION_COOKIE for services which it autostarts (#502258)
+- add direct build dependency on dbus-devel, since we call it
+  directly now
+
+* Fri May 08 2009 Adam Jackson <ajax@redhat.com> 1.0.9-7
+- xinit-1.0.9-unset.patch: Also unset XDG_SESSION_COOKIE in
+  startx. (#489999)
 
 * Wed Mar 11 2009 Adam Jackson <ajax@redhat.com> 1.0.9-6
 - xinitrc-common: Load /etc/X11/Xresources with -nocpp

@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   10%{?dist}
+Release:   11%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Wed Jun 17 2009 Nalin Dahyabhai <nalin@redhat.com> - 1.0.9-11
+- pull up ck-xinit-session changes for #502258 from from F11 branch
+
 * Sun Jun 14 2009 Matthias Clasen <mclasen@redhat.com> - 1.0.9-10
 - Don't own /etc/X11, since its already owned by filesystem
 

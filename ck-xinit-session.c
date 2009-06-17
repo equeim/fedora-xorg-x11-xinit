@@ -1,5 +1,5 @@
 /*
- * Copyright Red Hat, Inc. 2007.
+ * Copyright Red Hat, Inc. 2007,2009.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,16 +40,72 @@
 #include <sys/wait.h>
 #include <paths.h>
 #include <stdlib.h>
+#include <string.h>
 #include <syslog.h>
 #include <unistd.h>
 #include <ck-connector.h>
+#include <dbus/dbus.h>
+
+static void
+setbusenv(const char *var, const char *val)
+{
+	DBusConnection *conn;
+	DBusMessage *req, *rep;
+	DBusMessageIter iter, sub, subsub;
+	DBusError error;
+
+	dbus_error_init (&error);
+
+	conn = dbus_bus_get(DBUS_BUS_SESSION, &error);
+	if (conn == NULL) {
+		return;
+	}
+
+	req = dbus_message_new(DBUS_MESSAGE_TYPE_METHOD_CALL);
+	if (req == NULL) {
+		return;
+	}
+
+	memset(&iter, 0, sizeof(iter));
+	memset(&sub, 0, sizeof(sub));
+	memset(&subsub, 0, sizeof(subsub));
+	dbus_message_iter_init_append(req, &iter);
+	if (!dbus_message_set_destination(req, DBUS_SERVICE_DBUS) ||
+	    !dbus_message_set_path(req, DBUS_PATH_DBUS) ||
+	    !dbus_message_set_interface(req, DBUS_INTERFACE_DBUS) ||
+	    !dbus_message_set_member(req, "UpdateActivationEnvironment") ||
+	    !dbus_message_iter_open_container(&iter,
+					      DBUS_TYPE_ARRAY,
+					      DBUS_DICT_ENTRY_BEGIN_CHAR_AS_STRING
+					      DBUS_TYPE_STRING_AS_STRING
+					      DBUS_TYPE_STRING_AS_STRING
+					      DBUS_DICT_ENTRY_END_CHAR_AS_STRING,
+					      &sub) ||
+	    !dbus_message_iter_open_container(&sub,
+					      DBUS_TYPE_DICT_ENTRY,
+					      NULL,
+					      &subsub) ||
+	    !dbus_message_iter_append_basic(&subsub, DBUS_TYPE_STRING, &var) ||
+	    !dbus_message_iter_append_basic(&subsub, DBUS_TYPE_STRING, &val) ||
+	    !dbus_message_iter_close_container(&sub, &subsub) ||
+	    !dbus_message_iter_close_container(&iter, &sub)) {
+		dbus_message_unref(req);
+		return;
+	}
+	rep = dbus_connection_send_with_reply_and_block(conn, req,
+							30000, &error);
+	dbus_message_unref(req);
+	if (rep) {
+		dbus_message_unref(rep);
+	}
+}
 
 int
 main(int argc, char **argv)
 {
 	CkConnector *ckc = NULL;
 	DBusError error;
-	const char *shell;
+	const char *shell, *cookie;
 	pid_t pid;
 	int status;
 
@@ -63,8 +119,9 @@ main(int argc, char **argv)
 				syslog(LOG_ERR, "error forking child");
 				break;
 			case 0:
-				setenv("XDG_SESSION_COOKIE",
-				       ck_connector_get_cookie(ckc), 1);
+				cookie = ck_connector_get_cookie(ckc);
+				setenv("XDG_SESSION_COOKIE", cookie, 1);
+				setbusenv("XDG_SESSION_COOKIE", cookie);
 				break;
 			default:
 				waitpid(pid, &status, 0);

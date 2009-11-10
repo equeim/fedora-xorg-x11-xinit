@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   12%{?dist}
+Release:   13%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Tue Nov 10 2009 Matěj Cepl <mcepl@redhat.com> - 1.0.9-13
+- Fix SELinux labels on $errfile (fixes bug# 530419)
+
 * Mon Jul 27 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.9-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 

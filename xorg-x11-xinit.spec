@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   13%{?dist}
+Release:   14%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -132,7 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
-* Tue Dec 22 2009 Ville Skyttä <ville.skytta@iki.fi>
+* Fri Jan 29 2010 Ville Skyttä <ville.skytta@iki.fi> - 1.0.9-14
 - Eliminate dependency on which.
 - Change Xclients, Xsession and xinitrc-common to make fewer stat calls.
 - Install xinitrc-common non-executable.

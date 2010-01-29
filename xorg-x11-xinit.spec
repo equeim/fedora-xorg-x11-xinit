@@ -41,7 +41,6 @@ Requires: xauth
 Requires: coreutils
 Requires: xorg-x11-server-utils
 Requires: ConsoleKit-x11
-Requires: which
 
 # NOTE: Most of the xinitrc scripts/config files are now in xorg-x11-xinit,
 # so the xinitrc package became unnecessary.  The xdm configs/scripts move
@@ -90,7 +89,9 @@ install -m644 -D $RPM_SOURCE_DIR/xinit-compat.desktop $RPM_BUILD_ROOT%{_datadir}
 
 # Install Red Hat custom xinitrc, etc.
 {
-    for script in %{SOURCE10} %{SOURCE11} %{SOURCE12} %{SOURCE16} ; do
+    install -m 644 %{SOURCE10} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc-common
+
+    for script in %{SOURCE11} %{SOURCE12} %{SOURCE16} ; do
         install -m 755 $script $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/${script##*/}
     done
 
@@ -131,6 +132,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Tue Dec 22 2009 Ville Skyttä <ville.skytta@iki.fi>
+- Eliminate dependency on which.
+- Change Xclients, Xsession and xinitrc-common to make fewer stat calls.
+- Install xinitrc-common non-executable.
+
 * Tue Nov 10 2009 Matěj Cepl <mcepl@redhat.com> - 1.0.9-13
 - Fix SELinux labels on $errfile (fixes bug# 530419)
 

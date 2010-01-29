@@ -8,8 +8,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-GSESSION="$(which gnome-session 2>/dev/null)"
-STARTKDE="$(which startkde 2>/dev/null)"
+GSESSION="$(type -p gnome-session)"
+STARTKDE="$(type -p startkde)"
 
 # check to see if the user has a preferred desktop
 PREFERRED=
@@ -39,7 +39,7 @@ fi
 
 # We should also support /etc/X11/xinit/Xclients.d scripts
 XCLIENTS_D=/etc/X11/xinit/Xclients.d
-if [ -d "$XCLIENTS_D" -a "$#" -eq 1 -a -x "$XCLIENTS_D/Xclients.$1.sh" ]; then
+if [ "$#" -eq 1 ] && [ -x "$XCLIENTS_D/Xclients.$1.sh" ]; then
     exec -l $SHELL -c "$SSH_AGENT $XCLIENTS_D/Xclients.$1.sh"
 fi
 
@@ -55,8 +55,6 @@ rm -f $HOME/Xrootenv.0
     [ -x /usr/bin/xsetroot ] && /usr/bin/xsetroot -solid '#222E45'
 
     if [ -x /usr/bin/xclock ] ; then
-	/usr/bin/xclock -geometry 100x100-5+5 &
-    elif [ -x /usr/bin/xclock ] ; then
 	/usr/bin/xclock -geometry 100x100-5+5 &
     fi
     if [ -x /usr/bin/xterm ] ; then

@@ -76,9 +76,9 @@ autoreconf
 # Makefile.am and submit it in a bug report or check into CVS.
 make XINITDIR=/etc/X11/xinit
 %{__cc} -o ck-xinit-session \
-	`pkg-config --cflags ck-connector dbus-1` $RPM_OPT_FLAGS \
-	$RPM_SOURCE_DIR/ck-xinit-session.c \
-	`pkg-config --libs ck-connector dbus-1`
+    `pkg-config --cflags ck-connector dbus-1` $RPM_OPT_FLAGS \
+    %{SOURCE100} \
+    `pkg-config --libs ck-connector dbus-1`
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -86,7 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 # Makefile.am and submit it in a bug report or check into CVS.
 %makeinstall XINITDIR=$RPM_BUILD_ROOT/etc/X11/xinit
 install -m755 ck-xinit-session $RPM_BUILD_ROOT/%{_bindir}
-install -m644 -D $RPM_SOURCE_DIR/xinit-compat.desktop $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compat.desktop
+install -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compat.desktop
 
 # Install Red Hat custom xinitrc, etc.
 {
@@ -114,10 +114,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING README NEWS ChangeLog
-%{_bindir}/startx
-%{_bindir}/xinit
-%{_bindir}/ck-xinit-session
-%{_libexecdir}/xinit-compat
+%attr(755,-,root) %{_bindir}/startx
+%attr(755,-,root) %{_bindir}/xinit
+%attr(755,-,root) %{_bindir}/ck-xinit-session
+%attr(755,-,root) %{_libexecdir}/xinit-compat
 %dir %{_sysconfdir}/X11/xinit
 %{_sysconfdir}/X11/xinit/xinitrc
 %{_sysconfdir}/X11/xinit/xinitrc-common
@@ -139,6 +139,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Feb 04 2010 Matěj Cepl <mcepl@redhat.com> - 1.0.9-15
 - Add xinit-compat script
+  Patch from Rex Dieter, bug 540546
 
 * Fri Jan 29 2010 Ville Skyttä <ville.skytta@iki.fi> - 1.0.9-14
 - Eliminate dependency on which.
@@ -238,7 +239,7 @@ rm -rf $RPM_BUILD_ROOT
 * Sun Jul 29 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-23
 - Fix Xsession to run the login shell inside the setgid ssh-agent, rather
   than the other way around. This preserves LD_LIBRARY_PRELOAD.
-	Patch from Stefan Becker, bug 164869.
+  Patch from Stefan Becker, bug 164869.
 
 * Fri Jul 27 2007 Soren Sandmann <sandmann@redhat.com> 1.0.2-22
 - Remove xinput.sh. Bug 244963.

@@ -20,6 +20,7 @@ Source14: Xresources
 Source16: Xsession
 Source17: localuser.sh
 Source18: xinit-compat.desktop
+Source11: xinit-compat
 Source100: ck-xinit-session.c
 
 Patch1: xinit-1.0.2-client-session.patch

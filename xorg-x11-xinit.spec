@@ -113,7 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS COPYING README NEWS ChangeLog
+%doc COPYING README ChangeLog
 %attr(755,-,root) %{_bindir}/startx
 %attr(755,-,root) %{_bindir}/xinit
 %attr(755,-,root) %{_bindir}/ck-xinit-session

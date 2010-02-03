@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   14%{?dist}
+Release:   15%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -20,7 +20,7 @@ Source14: Xresources
 Source16: Xsession
 Source17: localuser.sh
 Source18: xinit-compat.desktop
-Source11: xinit-compat
+Source19: xinit-compat
 Source100: ck-xinit-session.c
 
 Patch1: xinit-1.0.2-client-session.patch
@@ -103,6 +103,9 @@ install -m644 -D $RPM_SOURCE_DIR/xinit-compat.desktop $RPM_BUILD_ROOT%{_datadir}
     install -m 755 %{SOURCE17} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/localuser.sh
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/Xclients.d
+
+    mkdir -p $RPM_BUILD_ROOT%{_libexecdir}
+    install -m 755 %{SOURCE19} $RPM_BUILD_ROOT%{_libexecdir}
 }
 
 %clean
@@ -114,6 +117,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/startx
 %{_bindir}/xinit
 %{_bindir}/ck-xinit-session
+%{_libexecdir}/xinit-compat
 %dir %{_sysconfdir}/X11/xinit
 %{_sysconfdir}/X11/xinit/xinitrc
 %{_sysconfdir}/X11/xinit/xinitrc-common
@@ -133,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Thu Feb 04 2010 Matěj Cepl <mcepl@redhat.com> - 1.0.9-15
+- Add xinit-compat script
+
 * Fri Jan 29 2010 Ville Skyttä <ville.skytta@iki.fi> - 1.0.9-14
 - Eliminate dependency on which.
 - Change Xclients, Xsession and xinitrc-common to make fewer stat calls.

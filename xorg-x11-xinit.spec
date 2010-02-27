@@ -117,7 +117,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,-,root) %{_bindir}/startx
 %attr(755,-,root) %{_bindir}/xinit
 %attr(755,-,root) %{_bindir}/ck-xinit-session
-%attr(755,-,root) %{_libexecdir}/xinit-compat
 %dir %{_sysconfdir}/X11/xinit
 %{_sysconfdir}/X11/xinit/xinitrc
 %{_sysconfdir}/X11/xinit/xinitrc-common
@@ -134,12 +133,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files session
 %defattr(-, root, root)
+%attr(755,-,root) %{_libexecdir}/xinit-compat
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
 * Thu Feb 04 2010 Matěj Cepl <mcepl@redhat.com> - 1.0.9-15
 - Add xinit-compat script
   Patch from Rex Dieter, bug 540546
+  Move xinit-compat script to -session subpackage.
 
 * Fri Jan 29 2010 Ville Skyttä <ville.skytta@iki.fi> - 1.0.9-14
 - Eliminate dependency on which.

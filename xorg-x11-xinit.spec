@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   15%{?dist}
+Release:   16%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -114,9 +114,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc COPYING README ChangeLog
-%attr(755,-,root) %{_bindir}/startx
-%attr(755,-,root) %{_bindir}/xinit
-%attr(755,-,root) %{_bindir}/ck-xinit-session
+%{_bindir}/startx
+%{_bindir}/xinit
+%{_bindir}/ck-xinit-session
 %dir %{_sysconfdir}/X11/xinit
 %{_sysconfdir}/X11/xinit/xinitrc
 %{_sysconfdir}/X11/xinit/xinitrc-common
@@ -137,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Wed Mar 24 2010 Matěj Cepl <mcepl@redhat.com> - 1.0.9-16
+- Remove explicit %%attr from _bindir
+
 * Thu Feb 04 2010 Matěj Cepl <mcepl@redhat.com> - 1.0.9-15
 - Add xinit-compat script
   Patch from Rex Dieter, bug 540546

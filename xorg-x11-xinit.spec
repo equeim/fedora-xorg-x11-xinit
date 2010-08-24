@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   16%{?dist}
+Release:   17%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -137,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Tue Aug 24 2010 Adam Tkac <atkac redhat com> - 1.0.9-17
+- rebuild to ensure F14 has higher NVR than F13
+
 * Wed Mar 24 2010 Matěj Cepl <mcepl@redhat.com> - 1.0.9-16
 - Remove explicit %%attr from _bindir
 

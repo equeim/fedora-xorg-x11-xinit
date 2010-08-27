@@ -133,7 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files session
 %defattr(-, root, root)
-%attr(755,-,root) %{_libexecdir}/xinit-compat
+%attr(755,root,root) %{_libexecdir}/xinit-compat
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog

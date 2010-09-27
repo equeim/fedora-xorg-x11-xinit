@@ -3,11 +3,10 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   18%{?dist}
+Release:   19%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Source0:  ftp://ftp.x.org/pub/individual/app/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
@@ -23,8 +22,9 @@ Source18: xinit-compat.desktop
 Source19: xinit-compat
 Source100: ck-xinit-session.c
 
+# Fedora specific patches
+
 Patch1: xinit-1.0.2-client-session.patch
-Patch2: xinit-1.0.7-poke-ck.patch
 Patch3: xinit-1.0.9-unset.patch
 
 BuildRequires: pkgconfig
@@ -37,21 +37,11 @@ BuildRequires: libtool
 BuildRequires: xorg-x11-util-macros
 # NOTE: startx needs xauth in order to run, but that is not picked up
 #       automatically by rpm.  (Bug #173684)
-Requires: xauth
+Requires: xorg-x11-xauth
 # next two are for localuser.sh
 Requires: coreutils
 Requires: xorg-x11-server-utils
 Requires: ConsoleKit-x11
-
-# NOTE: Most of the xinitrc scripts/config files are now in xorg-x11-xinit,
-# so the xinitrc package became unnecessary.  The xdm configs/scripts move
-# to the xdm package.
-Obsoletes: xinitrc
-
-# We don't explicitly run dbus-launch anymore.  We depend on a dbus new enough
-# that it installs its own .sh file in xinitrc.d to launch itself at session
-# startup.
-Conflicts: dbus < 1.1.4-3.fc9
 
 %package session
 Summary: Display manager support for ~/.xsession and ~/.Xclients
@@ -66,7 +56,6 @@ Allows legacy ~/.xsession and ~/.Xclients files to be used from display managers
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1 -b .client-session
-#%patch2 -p1 -b .poke-ck
 %patch3 -p1 -b .unset
 
 %build
@@ -74,42 +63,40 @@ autoreconf
 %configure
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
-make XINITDIR=/etc/X11/xinit
+make XINITDIR=%{_sysconfdir}/X11/xinit
 %{__cc} -o ck-xinit-session \
     `pkg-config --cflags ck-connector dbus-1` $RPM_OPT_FLAGS \
     %{SOURCE100} \
     `pkg-config --libs ck-connector dbus-1`
 
 %install
-rm -rf $RPM_BUILD_ROOT
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
-%makeinstall XINITDIR=$RPM_BUILD_ROOT/etc/X11/xinit
-install -m755 ck-xinit-session $RPM_BUILD_ROOT/%{_bindir}
-install -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compat.desktop
+make install DESTDIR=$RPM_BUILD_ROOT XINITDIR=%{_sysconfdir}/X11/xinit
+install -p -m755 ck-xinit-session $RPM_BUILD_ROOT/%{_bindir}
+install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compat.desktop
 
 # Install Red Hat custom xinitrc, etc.
 {
-    install -m 644 %{SOURCE10} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc-common
+    mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit
+
+    install -p -m 644 %{SOURCE10} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc-common
 
     for script in %{SOURCE11} %{SOURCE12} %{SOURCE16} ; do
-        install -m 755 $script $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/${script##*/}
+        install -p -m 755 $script $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/${script##*/}
     done
 
-    install -m 644 %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/X11/Xmodmap
-    install -m 644 %{SOURCE14} $RPM_BUILD_ROOT%{_sysconfdir}/X11/Xresources
+    install -p -m 644 %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/X11/Xmodmap
+    install -p -m 644 %{SOURCE14} $RPM_BUILD_ROOT%{_sysconfdir}/X11/Xresources
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d
-    install -m 755 %{SOURCE17} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/localuser.sh
+    install -p -m 755 %{SOURCE17} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/localuser.sh
 
     mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/Xclients.d
 
     mkdir -p $RPM_BUILD_ROOT%{_libexecdir}
-    install -m 755 %{SOURCE19} $RPM_BUILD_ROOT%{_libexecdir}
+    install -p -m 755 %{SOURCE19} $RPM_BUILD_ROOT%{_libexecdir}
 }
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
@@ -127,16 +114,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/X11/xinit/Xsession
 %dir %{_sysconfdir}/X11/xinit/xinitrc.d
 %{_sysconfdir}/X11/xinit/xinitrc.d/*
-#%dir %{_mandir}/man1
 %{_mandir}/man1/startx.1*
 %{_mandir}/man1/xinit.1*
 
 %files session
-%defattr(-, root, root)
-%attr(755,root,root) %{_libexecdir}/xinit-compat
+%defattr(-, root, root,-)
+%{_libexecdir}/xinit-compat
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Sat Sep 25 2010 Parag Nemade <paragn AT fedoraproject.org> - 1.0.9-19
+- Merge-review cleanup (#226653)
+
 * Fri Aug 27 2010 Matěj Cepl <mcepl@redhat.com> - 1.0.9-18
 - Fix ownership of files.
 

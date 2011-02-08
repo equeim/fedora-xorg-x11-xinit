@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.0.9
-Release:   19%{?dist}
+Release:   20%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -123,6 +123,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.9-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Sat Sep 25 2010 Parag Nemade <paragn AT fedoraproject.org> - 1.0.9-19
 - Merge-review cleanup (#226653)
 

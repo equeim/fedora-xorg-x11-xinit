@@ -17,6 +17,8 @@ if [ -r /etc/profile.d/lang.sh ]; then
   . /etc/profile.d/lang.sh
 fi
 
+[ -r $HOME/.profile ] && . $HOME/.profile
+
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 userxkbmap=$HOME/.Xkbmap

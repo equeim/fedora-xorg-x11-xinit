@@ -2,8 +2,8 @@
 
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
-Version:   1.0.9
-Release:   21%{?dist}
+Version:   1.3.1
+Release:   1%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -123,6 +123,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Jul 25 2011 Matěj Cepl <mcepl@redhat.com> - 1.3.1-1
+- New upstream version. Patches updated.
+
 * Sat May 28 2011 Matěj Cepl <mcepl@redhat.com> - 1.0.9-21
 - xinitrc-common sources ~/.profile (Bug 551508)
 

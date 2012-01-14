@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.3.1
-Release:   2%{?dist}
+Release:   3%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -114,6 +114,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Wed Nov 16 2011 Adam Jackson <ajax@redhat.com> 1.3.1-2
 - Drop ConsoleKit integration, being removed in F17
 

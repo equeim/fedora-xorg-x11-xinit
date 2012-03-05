@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.3.1
-Release:   3%{?dist}
+Release:   4%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -20,6 +20,7 @@ Source16: Xsession
 Source17: localuser.sh
 Source18: xinit-compat.desktop
 Source19: xinit-compat
+Source100: ck-xinit-session.c
 
 # Fedora specific patches
 
@@ -28,6 +29,7 @@ Patch3: xinit-1.0.9-unset.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
+BuildRequires: ConsoleKit-devel
 BuildRequires: autoconf
 BuildRequires: automake
 BuildRequires: dbus-devel
@@ -39,6 +41,7 @@ Requires: xorg-x11-xauth
 # next two are for localuser.sh
 Requires: coreutils
 Requires: xorg-x11-server-utils
+Requires: ConsoleKit-x11
 
 %package session
 Summary: Display manager support for ~/.xsession and ~/.Xclients
@@ -61,11 +64,16 @@ autoreconf
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
 make XINITDIR=%{_sysconfdir}/X11/xinit
+%{__cc} -o ck-xinit-session \
+    `pkg-config --cflags ck-connector dbus-1` $RPM_OPT_FLAGS \
+    %{SOURCE100} \
+    `pkg-config --libs ck-connector dbus-1`
 
 %install
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
 make install DESTDIR=$RPM_BUILD_ROOT XINITDIR=%{_sysconfdir}/X11/xinit
+install -p -m755 ck-xinit-session $RPM_BUILD_ROOT/%{_bindir}
 install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compat.desktop
 
 # Install Red Hat custom xinitrc, etc.
@@ -95,6 +103,7 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %doc COPYING README ChangeLog
 %{_bindir}/startx
 %{_bindir}/xinit
+%{_bindir}/ck-xinit-session
 %dir %{_sysconfdir}/X11/xinit
 %{_sysconfdir}/X11/xinit/xinitrc
 %{_sysconfdir}/X11/xinit/xinitrc-common
@@ -114,6 +123,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Mar 05 2012 Adam Jackson <ajax@redhat.com> 1.3.1-4
+- Revert "Drop ConsoleKit integration" (#798686)
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 

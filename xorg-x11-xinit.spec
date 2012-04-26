@@ -2,7 +2,7 @@
 
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
-Version:   1.3.1
+Version:   1.3.2
 Release:   5%{?dist}
 License:   MIT
 Group:     User Interface/X
@@ -114,6 +114,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Thu Apr 26 2012 Adam Jackson <ajax@redhat.com> 1.3.2-5
+- xinit 1.3.2
+
 * Thu Mar 08 2012 Adam Jackson <ajax@redhat.com> 1.3.1-5
 - Rebuild
 

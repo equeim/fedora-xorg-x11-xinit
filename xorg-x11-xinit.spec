@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.3.2
-Release:   6%{?dist}
+Release:   7%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -24,6 +24,9 @@ Source19: xinit-compat
 # Fedora specific patches
 
 Patch1: xinit-1.0.2-client-session.patch
+# Fix startx to run on the same tty as user to avoid new session. 
+# https://bugzilla.redhat.com/show_bug.cgi?id=806491
+Patch2: xorg-x11-xinit-1.3.2-systemd-logind.patch
 Patch3: xinit-1.0.9-unset.patch
 
 BuildRequires: pkgconfig
@@ -53,6 +56,7 @@ Allows legacy ~/.xsession and ~/.Xclients files to be used from display managers
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1 -b .client-session
+%patch2 -p1 -b .systemd-logind
 %patch3 -p1 -b .unset
 
 %build
@@ -114,6 +118,10 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Oct 01 2012 Kevin Fenzi <kevin@scrye.com> 1.3.2-7
+- Add patch to not switch tty's, so systemd-logind works right with startx. 
+- Partially Fixes bug #806491 
+
 * Sun Jul 22 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 

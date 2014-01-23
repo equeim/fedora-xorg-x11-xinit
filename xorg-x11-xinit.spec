@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.3.2
-Release:   9%{?dist}
+Release:   10%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -60,7 +60,7 @@ Allows legacy ~/.xsession and ~/.Xclients files to be used from display managers
 %patch3 -p1 -b .unset
 
 %build
-autoreconf
+autoreconf -fi
 %configure
 # FIXME: Upstream should default to XINITDIR being this.  Make a patch to
 # Makefile.am and submit it in a bug report or check into CVS.
@@ -118,6 +118,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Thu Jan 23 2014 Dave Airlie <airlied@redhat.com> 1.3.2-10
+- fix for ppc64le enable (#1056742)
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 

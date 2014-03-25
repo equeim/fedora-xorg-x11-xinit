@@ -1,0 +1,28 @@
+From ab3df9890d3056f217c1fce11101e362db1bdcf7 Mon Sep 17 00:00:00 2001
+From: Hans de Goede <hdegoede@redhat.com>
+Date: Tue, 25 Mar 2014 12:31:28 +0100
+Subject: [PATCH 3/3] Makefile.am: Give XINITDIR a default value
+
+We are using XINITDIR, but never setting it. Lets give it a sane default.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ Makefile.am | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Makefile.am b/Makefile.am
+index 3867bea..ec8d4cc 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -27,6 +27,8 @@ endif
+ bin_PROGRAMS = xinit
+ bin_SCRIPTS = startx
+ 
++XINITDIR = $(sysconfdir)/X11/xinit
++
+ AM_CFLAGS = $(CWARNFLAGS) $(XINIT_CFLAGS)
+ AM_CPPFLAGS = -DXINITDIR=\"$(XINITDIR)\" -DBINDIR=\"$(bindir)\"
+ xinit_LDADD = $(XINIT_LIBS)
+-- 
+1.9.0
+

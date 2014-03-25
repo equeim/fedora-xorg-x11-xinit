@@ -1,0 +1,50 @@
+From e222d3b978499d1e9293dcbe97bb8349da8ad4ea Mon Sep 17 00:00:00 2001
+From: Hans de Goede <hdegoede@redhat.com>
+Date: Tue, 25 Mar 2014 11:54:31 +0100
+Subject: [PATCH 2/3] startx: Under Linux start X on the current VT
+
+When we let X allocate a new VT, systemd-logind will not recognize any
+processes running on this VT as belonging to a valid session (since there
+was no pam session opened on that tty).
+
+This causes problems like PolicyKit denials for these processes.
+
+ConsoleKit under Linux has been deprecated for a few years now and is no
+longer being maintained, so simply make this the default under Linux.
+
+Note we do not pass in the vt if the user has specified an alternative server
+to start, as the vtX argument is only valid for the Xorg server, likewise we
+omit it if the user has specified any other server arguments.
+
+Fixes:
+https://bugzilla.redhat.com/show_bug.cgi?id=806491
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ startx.cpp | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/startx.cpp b/startx.cpp
+index c595b84..3708471 100644
+--- a/startx.cpp
++++ b/startx.cpp
+@@ -228,6 +228,16 @@ XCOMM process server arguments
+ if [ x"$server" = x ]; then
+     server=$defaultserver
+ 
++#ifdef __linux__
++    XCOMM When starting the defaultserver start X on the current tty to avoid
++    XCOMM the startx session being seen as inactive: RHBZ#820675
++    tty=$(tty)
++    if expr match "$tty" '^/dev/tty[0-9]\+$' > /dev/null; then
++        tty_num=$(echo "$tty" | grep -oE '[0-9]+$')
++        defaultserverargs=${defaultserverargs}" vt"${tty_num}
++    fi
++#endif
++
+     XCOMM For compatibility reasons, only use xserverrc if there were no server command line arguments
+     if [ x"$serverargs" = x -a x"$display" = x ]; then
+ 	if [ -f "$userserverrc" ]; then
+-- 
+1.9.0
+

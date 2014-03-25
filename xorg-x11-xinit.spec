@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.3.2
-Release:   10%{?dist}
+Release:   11%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -24,10 +24,13 @@ Source19: xinit-compat
 # Fedora specific patches
 
 Patch1: xinit-1.0.2-client-session.patch
-# Fix startx to run on the same tty as user to avoid new session. 
+
+# Fixes scheduled to go upstream for the next release, fixing:
 # https://bugzilla.redhat.com/show_bug.cgi?id=806491
-Patch2: xorg-x11-xinit-1.3.2-systemd-logind.patch
-Patch3: xinit-1.0.9-unset.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=960955
+Patch2: 0001-Drop-RAWCPPFLAGS-when-generating-startx.patch
+Patch3: 0002-startx-Under-Linux-start-X-on-the-current-VT.patch
+Patch4: 0003-Makefile.am-Give-XINITDIR-a-default-value.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
@@ -56,20 +59,17 @@ Allows legacy ~/.xsession and ~/.Xclients files to be used from display managers
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1 -b .client-session
-%patch2 -p1 -b .systemd-logind
-%patch3 -p1 -b .unset
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 autoreconf -fi
 %configure
-# FIXME: Upstream should default to XINITDIR being this.  Make a patch to
-# Makefile.am and submit it in a bug report or check into CVS.
-make XINITDIR=%{_sysconfdir}/X11/xinit
+make %{?_smp_mflags}
 
 %install
-# FIXME: Upstream should default to XINITDIR being this.  Make a patch to
-# Makefile.am and submit it in a bug report or check into CVS.
-make install DESTDIR=$RPM_BUILD_ROOT XINITDIR=%{_sysconfdir}/X11/xinit
+%make_install
 install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compat.desktop
 
 # Install Red Hat custom xinitrc, etc.
@@ -95,7 +95,6 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 }
 
 %files
-%defattr(-,root,root,-)
 %doc COPYING README ChangeLog
 %{_bindir}/startx
 %{_bindir}/xinit
@@ -113,11 +112,14 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_mandir}/man1/xinit.1*
 
 %files session
-%defattr(-, root, root,-)
 %{_libexecdir}/xinit-compat
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Tue Mar 25 2014 Hans de Goede <hdegoede@redhat.com> - 1.3.2-11
+- Fix startx ignoring a server or display passed on the cmdline (#960955)
+- Drop Fedora custom patch to unset XDG_SESSION_COOKIE, this was only for CK
+
 * Thu Jan 23 2014 Dave Airlie <airlied@redhat.com> 1.3.2-10
 - fix for ppc64le enable (#1056742)
 

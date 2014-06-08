@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.3.2
-Release:   11%{?dist}
+Release:   12%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -116,6 +116,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Tue Mar 25 2014 Hans de Goede <hdegoede@redhat.com> - 1.3.2-11
 - Fix startx ignoring a server or display passed on the cmdline (#960955)
 - Drop Fedora custom patch to unset XDG_SESSION_COOKIE, this was only for CK

@@ -64,8 +64,3 @@ if [ -z "$SSH_AGENT_PID" ] && [ -x /usr/bin/ssh-agent ]; then
         SSH_AGENT="/usr/bin/ssh-agent"
   fi
 fi
-
-CK_XINIT_SESSION=
-if [ -z "$XDG_SESSION_COOKIE" ] && [ -x /usr/bin/ck-xinit-session ]; then
-    CK_XINIT_SESSION="/usr/bin/ck-xinit-session"
-fi

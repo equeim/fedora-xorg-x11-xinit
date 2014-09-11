@@ -2,13 +2,13 @@
 
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
-Version:   1.3.2
-Release:   13%{?dist}
+Version:   1.3.4
+Release:   1%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
 
-Source0:  ftp://ftp.x.org/pub/individual/app/%{pkgname}-%{version}.tar.bz2
+Source0:  http://xorg.freedesktop.org/archive/individual/app/%{pkgname}-%{version}.tar.bz2
 Source10: xinitrc-common
 Source11: xinitrc
 Source12: Xclients
@@ -25,20 +25,12 @@ Source19: xinit-compat
 
 Patch1: xinit-1.0.2-client-session.patch
 
-# Fixes scheduled to go upstream for the next release, fixing:
-# https://bugzilla.redhat.com/show_bug.cgi?id=806491
-# https://bugzilla.redhat.com/show_bug.cgi?id=960955
-Patch2: 0001-Drop-RAWCPPFLAGS-when-generating-startx.patch
-Patch3: 0002-startx-Under-Linux-start-X-on-the-current-VT.patch
-Patch4: 0003-Makefile.am-Give-XINITDIR-a-default-value.patch
+# submitted upstream, rhbz#1111684
+Patch2: 0001-startx-Pass-nolisten-tcp-by-default.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
-BuildRequires: autoconf
-BuildRequires: automake
 BuildRequires: dbus-devel
-BuildRequires: libtool
-BuildRequires: xorg-x11-util-macros
 # NOTE: startx needs xauth in order to run, but that is not picked up
 #       automatically by rpm.  (Bug #173684)
 Requires: xorg-x11-xauth
@@ -60,11 +52,8 @@ Allows legacy ~/.xsession and ~/.Xclients files to be used from display managers
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1 -b .client-session
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
-autoreconf -fi
 %configure
 make %{?_smp_mflags}
 
@@ -116,6 +105,14 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Thu Sep 11 2014 Hans de Goede <hdegoede@redhat.com> - 1.3.4-1
+- New upstream release 1.3.4
+- Resolves #806491 #990213 #1006029
+- Remove stale ck-xinit-session references from xinitrc-common (#910969)
+- Make startx pass "-nolisten tcp" by default, use -listen as server
+  option to disable this (#1111684)
+- Teach Xclients script about lxde (#488602)
+
 * Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
@@ -286,7 +283,7 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 * Mon May 21 2007 Adam Jackson <ajax@redhat.com> 1.0.2-21
 - localuser.sh: Run silently.
 
-* Sat Apr 22 2007 Matthias Clasen <mclasen@redhat.com> 1.0.2-20
+* Sat Apr 21 2007 Matthias Clasen <mclasen@redhat.com> 1.0.2-20
 - Don't install INSTALL
 
 * Thu Apr 19 2007 Warren Togami <wtogami@redhat.com> 1.0.2-19

@@ -9,6 +9,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 GSESSION="$(type -p gnome-session)"
+MSESSION="$(type -p mate-session)"
 STARTKDE="$(type -p startkde)"
 STARTLXDE="$(type -p startlxde)"
 
@@ -18,6 +19,8 @@ if [ -f /etc/sysconfig/desktop ]; then
     . /etc/sysconfig/desktop
     if [ "$DESKTOP" = "GNOME" ]; then
 	PREFERRED="$GSESSION"
+    elif [ "$DESKTOP" = "MATE" ]; then
+	PREFERRED="$MSESSION"
     elif [ "$DESKTOP" = "KDE" ]; then
 	PREFERRED="$STARTKDE"
     elif [ "$DESKTOP" = "LXDE" ]; then

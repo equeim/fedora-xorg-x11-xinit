@@ -3,7 +3,7 @@
 Summary:   X.Org X11 X Window System xinit startup scripts
 Name:      xorg-x11-%{pkgname}
 Version:   1.3.4
-Release:   1%{?dist}
+Release:   2%{?dist}
 License:   MIT
 Group:     User Interface/X
 URL:       http://www.x.org
@@ -105,6 +105,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Wed Oct  1 2014 Hans de Goede <hdegoede@redhat.com> - 1.3.4-2
+- Add support for MATE to Xclients (#1147905)
+
 * Thu Sep 11 2014 Hans de Goede <hdegoede@redhat.com> - 1.3.4-1
 - New upstream release 1.3.4
 - Resolves #806491 #990213 #1006029

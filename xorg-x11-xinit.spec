@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    3%{?dist}
+Release:    4%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -22,7 +22,8 @@ Source19:   xinit-compat
 
 # Fedora specific patches
 Patch1: xinit-1.0.2-client-session.patch
-# submitted upstream, rhbz#1111684
+# This is the Xserver default starting at xorg-x11-server >= 1.17, drop once
+# we've that version, rhbz#1111684
 Patch2: 0001-startx-Pass-nolisten-tcp-by-default.patch
 # submitted upstream, rhbz#1177513
 Patch3: 0001-startx-Pass-keeptty-when-telling-the-server-to-start.patch
@@ -107,6 +108,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Tue Feb  3 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-4
+- xinitrc-common: Do not override SSH_AGENT if already set (rhbz#1067676)
+
 * Thu Jan 22 2015 Simone Caronni <negativo17@gmail.com> - 1.3.4-3
 - Xorg without root rights breaks by streams redirection (#1177513).
 - Format SPEC file; trim changelog.

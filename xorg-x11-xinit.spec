@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    4%{?dist}
+Release:    5%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -108,6 +108,10 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Sat Feb 21 2015 Till Maas <opensource@till.name> - 1.3.4-5
+- Rebuilt for Fedora 23 Change
+  https://fedoraproject.org/wiki/Changes/Harden_all_packages_with_position-independent_code
+
 * Tue Feb  3 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-4
 - xinitrc-common: Do not override SSH_AGENT if already set (rhbz#1067676)
 

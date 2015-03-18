@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    5%{?dist}
+Release:    6%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -27,6 +27,8 @@ Patch1: xinit-1.0.2-client-session.patch
 Patch2: 0001-startx-Pass-nolisten-tcp-by-default.patch
 # submitted upstream, rhbz#1177513
 Patch3: 0001-startx-Pass-keeptty-when-telling-the-server-to-start.patch
+# Fedora specific patch to match the similar patch in the xserver
+Patch4: xinit-1.3.4-set-XORG_RUN_AS_USER_OK.patch
 
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  dbus-devel
@@ -55,6 +57,7 @@ managers.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %configure
@@ -108,6 +111,10 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Wed Mar 18 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-6
+- Set XORG_RUN_AS_USER_OK when starting X on the current tty, to run X
+  to run without root rights when possible
+
 * Sat Feb 21 2015 Till Maas <opensource@till.name> - 1.3.4-5
 - Rebuilt for Fedora 23 Change
   https://fedoraproject.org/wiki/Changes/Harden_all_packages_with_position-independent_code

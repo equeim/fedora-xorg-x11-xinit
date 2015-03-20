@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    6%{?dist}
+Release:    7%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -25,10 +25,12 @@ Patch1: xinit-1.0.2-client-session.patch
 # This is the Xserver default starting at xorg-x11-server >= 1.17, drop once
 # we've that version, rhbz#1111684
 Patch2: 0001-startx-Pass-nolisten-tcp-by-default.patch
-# submitted upstream, rhbz#1177513
+# A few fixes submitted upstream, rhbz#1177513, rhbz#1203780
 Patch3: 0001-startx-Pass-keeptty-when-telling-the-server-to-start.patch
+Patch4: 0002-startx-Fix-startx-picking-an-already-used-display-nu.patch
+Patch5: 0003-startx-Make-startx-auto-display-select-work-with-per.patch
 # Fedora specific patch to match the similar patch in the xserver
-Patch4: xinit-1.3.4-set-XORG_RUN_AS_USER_OK.patch
+Patch6: xinit-1.3.4-set-XORG_RUN_AS_USER_OK.patch
 
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  dbus-devel
@@ -58,6 +60,8 @@ managers.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 %configure
@@ -111,6 +115,10 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Fri Mar 20 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-7
+- Fix startx auto display select not working when a Xserver started by
+  gdm is running
+
 * Wed Mar 18 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-6
 - Set XORG_RUN_AS_USER_OK when starting X on the current tty, to run X
   to run without root rights when possible

@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    7%{?dist}
+Release:    8%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -115,6 +115,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Thu Apr 30 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-8
+- Only set XORG_RUN_AS_USER_OK when no vt is specified (#1203780)
+
 * Fri Mar 20 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-7
 - Fix startx auto display select not working when a Xserver started by
   gdm is running

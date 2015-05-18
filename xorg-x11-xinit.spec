@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    8%{?dist}
+Release:    9%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -115,6 +115,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon May 18 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-9
+- Fix typo in Xsession file (rhbz#1222299)
+
 * Thu Apr 30 2015 Hans de Goede <hdegoede@redhat.com> - 1.3.4-8
 - Only set XORG_RUN_AS_USER_OK when no vt is specified (#1203780)
 

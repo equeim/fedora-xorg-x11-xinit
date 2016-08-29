@@ -12,4 +12,4 @@ diff -up xinit-1.3.4/startx.cpp~ xinit-1.3.4/startx.cpp
 +    export XORG_RUN_AS_USER_OK=1
  fi
  
- serverargs="$serverargs $listenarg"
+ XCOMM if no display, use default

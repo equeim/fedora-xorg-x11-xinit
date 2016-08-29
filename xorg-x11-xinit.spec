@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    11%{?dist}
+Release:    12%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -22,9 +22,6 @@ Source19:   xinit-compat
 
 # Fedora specific patches
 Patch1: xinit-1.0.2-client-session.patch
-# This is the Xserver default starting at xorg-x11-server >= 1.17, drop once
-# we've that version, rhbz#1111684
-Patch2: 0001-startx-Pass-nolisten-tcp-by-default.patch
 # A few fixes submitted upstream, rhbz#1177513, rhbz#1203780
 Patch3: 0001-startx-Pass-keeptty-when-telling-the-server-to-start.patch
 Patch4: 0002-startx-Fix-startx-picking-an-already-used-display-nu.patch
@@ -57,7 +54,6 @@ managers.
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1
-%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -115,6 +111,11 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Aug 29 2016 Hans de Goede <hdegoede@redhat.com> - 1.3.4-12
+- Drop 0001-startx-Pass-nolisten-tcp-by-default.patch this is the
+  server default now
+- Check for SSH_AUTH_SOCK not SSH_AGENT in xinitrc-common (rhbz#1352339)
+
 * Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 

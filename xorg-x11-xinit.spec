@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    12%{?dist}
+Release:    13%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -111,6 +111,10 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Wed Dec 14 2016 Hans de Goede <hdegoede@redhat.com> - 1.3.4-13
+- Check for all 3 of SSH_AGENT, SSH_AGENT_PID and SSH_AUTH_SOCK to fix
+  a regression introduced by the previous fix (rhbz#1352339)
+
 * Mon Aug 29 2016 Hans de Goede <hdegoede@redhat.com> - 1.3.4-12
 - Drop 0001-startx-Pass-nolisten-tcp-by-default.patch this is the
   server default now

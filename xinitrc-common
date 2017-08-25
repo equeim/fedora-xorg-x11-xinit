@@ -34,21 +34,17 @@ sysxkbmap=/etc/X11/Xkbmap
 # merge in keymaps
 if [ -r "$sysxkbmap" ]; then
     setxkbmap $(cat "$sysxkbmap")
-    XKB_IN_USE=yes
 fi
 
 if [ -r "$userxkbmap" ]; then
     setxkbmap $(cat "$userxkbmap")
-    XKB_IN_USE=yes
 fi
 
 # xkb and xmodmap don't play nice together
-if [ -z "$XKB_IN_USE" ]; then
+if ! [ -r "$sysxkbmap" -o -r "$userxkbmap" ] ; then
     [ -r "$sysmodmap" ] && xmodmap "$sysmodmap"
     [ -r "$usermodmap" ] && xmodmap "$usermodmap"
 fi
-
-unset XKB_IN_USE
 
 # run all system xinitrc shell scripts.
 for file in /etc/X11/xinit/xinitrc.d/* ; do

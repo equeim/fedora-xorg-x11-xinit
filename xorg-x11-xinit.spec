@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.3.4
-Release:    17%{?dist}
+Release:    18%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -29,6 +29,7 @@ Patch5: 0003-startx-Make-startx-auto-display-select-work-with-per.patch
 # Fedora specific patch to match the similar patch in the xserver
 Patch6: xinit-1.3.4-set-XORG_RUN_AS_USER_OK.patch
 
+BuildRequires:  automake gcc
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  dbus-devel
 
@@ -111,6 +112,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Feb 19 2018 Peter Hutterer <peter.hutterer@redhat.com> 1.3.4-18
+- Add BR for automake and gcc
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 

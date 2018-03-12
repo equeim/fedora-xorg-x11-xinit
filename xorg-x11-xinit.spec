@@ -2,12 +2,12 @@
 
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
-Version:    1.3.4
-Release:    18%{?dist}
+Version:    1.4.0
+Release:    1%{?dist}
 License:    MIT
-URL:        http://www.x.org
+URL:        https://www.x.org
 
-Source0:    http://xorg.freedesktop.org/archive/individual/app/%{pkgname}-%{version}.tar.bz2
+Source0:    https://xorg.freedesktop.org/archive/individual/app/%{pkgname}-%{version}.tar.bz2
 Source10:   xinitrc-common
 Source11:   xinitrc
 Source12:   Xclients
@@ -22,9 +22,6 @@ Source19:   xinit-compat
 
 # Fedora specific patches
 Patch1: xinit-1.0.2-client-session.patch
-# A few fixes submitted upstream, rhbz#1177513, rhbz#1203780
-Patch3: 0001-startx-Pass-keeptty-when-telling-the-server-to-start.patch
-Patch4: 0002-startx-Fix-startx-picking-an-already-used-display-nu.patch
 Patch5: 0003-startx-Make-startx-auto-display-select-work-with-per.patch
 # Fedora specific patch to match the similar patch in the xserver
 Patch6: xinit-1.3.4-set-XORG_RUN_AS_USER_OK.patch
@@ -55,8 +52,6 @@ managers.
 %prep
 %setup -q -n %{pkgname}-%{version}
 %patch1 -p1
-%patch3 -p1
-%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 
@@ -112,6 +107,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Mon Mar 12 2018 Adam Jackson <ajax@redhat.com> - 1.4.0-1
+- xinit 1.4.0
+
 * Mon Feb 19 2018 Peter Hutterer <peter.hutterer@redhat.com> 1.3.4-18
 - Add BR for automake and gcc
 

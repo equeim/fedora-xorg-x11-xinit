@@ -3,7 +3,7 @@
 Summary:    X.Org X11 X Window System xinit startup scripts
 Name:       xorg-x11-%{pkgname}
 Version:    1.4.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 License:    MIT
 URL:        https://www.x.org
 
@@ -107,6 +107,9 @@ install -p -m644 -D %{SOURCE18} $RPM_BUILD_ROOT%{_datadir}/xsessions/xinit-compa
 %{_datadir}/xsessions/xinit-compat.desktop
 
 %changelog
+* Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Mon Mar 12 2018 Adam Jackson <ajax@redhat.com> - 1.4.0-1
 - xinit 1.4.0
 

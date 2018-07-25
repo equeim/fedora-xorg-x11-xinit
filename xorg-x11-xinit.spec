@@ -26,6 +26,17 @@ Patch5: 0003-startx-Make-startx-auto-display-select-work-with-per.patch
 # Fedora specific patch to match the similar patch in the xserver
 Patch6: xinit-1.3.4-set-XORG_RUN_AS_USER_OK.patch
 
+# The build process uses cpp (the C preprocessor) to do some text
+# processing on several files that are not C or C++. However, these
+# files have '.cpp' extensions, which causes cpp to preprocess them
+# using cc1plus, which is part of gcc-c++. We could patch the build
+# to pass '-xc' or '-xassembler-with-cpp' to cpp to avoid this, but
+# doing so actually causes the processing to be done differently
+# somehow, and a bunch of empty lines to show up at the top of
+# startx (which is one of the files so processed). So it seems better
+# to just BuildRequire gcc-c++ for now, so the processing is done as
+# it was before. See https://bugs.freedesktop.org/show_bug.cgi?id=107368
+# for more on this.
 BuildRequires:  automake gcc gcc-c++
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  dbus-devel

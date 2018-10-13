@@ -1,0 +1,12 @@
+diff --git a/startx.cpp b/startx.cpp
+index dbc4cae..7badc54 100644
+--- a/startx.cpp
++++ b/startx.cpp
+@@ -11,7 +11,6 @@ XCOMM
+ XCOMM Site administrators are STRONGLY urged to write nicer versions.
+ XCOMM
+ 
+-unset DBUS_SESSION_BUS_ADDRESS
+ unset SESSION_MANAGER
+ 
+ #ifdef __APPLE__

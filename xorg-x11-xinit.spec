@@ -25,6 +25,8 @@ Patch1: xinit-1.0.2-client-session.patch
 Patch5: 0003-startx-Make-startx-auto-display-select-work-with-per.patch
 # Fedora specific patch to match the similar patch in the xserver
 Patch6: xinit-1.3.4-set-XORG_RUN_AS_USER_OK.patch
+# Fedora specific patch to disable unsetting of DBUS_SESSION_BUS_ADDRESS environment variable
+Patch7: dbus-address.patch
 
 # The build process uses cpp (the C preprocessor) to do some text
 # processing on several files that are not C or C++. However, these
@@ -65,6 +67,7 @@ managers.
 %patch1 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %configure
